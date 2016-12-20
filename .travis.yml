@@ -1,0 +1,35 @@
+language: android
+android:
+  components:
+  - extra-google-m2repository
+  - extra-android-m2repository
+  - platform-tools
+  - tools
+  - build-tools-25.0.2
+  - android-25
+script: "./gradlew assembleRelease"
+jdk:
+- oraclejdk8
+env:
+  global:
+    secure: kHJER41C8xD735wHQPSKAyznRT8PzML0YS4fS4vSeCjSLznln0hREbb0GH1cr16y/ZxPmQQ9uA2r1oCX2X0qde4qkHowO8N2GUrfBdDocG3tGn1yPkDZsp5DfDH13WB1kHtHBc/xkd2TsBxMU6i8Fp/v0j/Es8QknmyOFO84+8Z5xzcfGRKST0B55vPJ4g0uwShLu7eTh7jG4diYXAM+zOl+ILpaXgpxBiYZkd1710W6KrdD9zbMsLCjIN6bJk5ojQgjAkrGBcrjHXovXJAI/RBL8rWzmCg03Mc3rK2dd8bV5IUdCfem61RSuLajjrF16JVYd0qX7zuZ8p8JcK4NivZlgvAYi55JxdapbuIHOLXMO6uM2qxgyMBDB6nvskcw+jg1z3tVQ9yGOM3wn9ZSAbr25dkslVLCjhgOacx9GUWxPqFlkfUXE7NDqINoCwtgfWict21UvJ55nc1f727yWJKLbML89bf/Epiopt7rrIQ4HJyv5zOfFC+PxtHq62bvM0IQNV7WJPTGi+z4nIlsT+hsEYlTaEkfH6Sk2X5l1mEq7hZ4YPU2DMikCYcP0b/zkmqrU3dX7YhnxeLAlcOcDxlkzMvQ7Kj+BE5dyMOVnH8FXoKN9vhcLUqR4cR2SNf18lnVpaWZwgt7jWs3f9usRTVlPrCNYNMdrd/gY8krBwM=
+before_install:
+- openssl aes-256-cbc -k "$password_key" -in configurationkeys.tar.enc -out configurationkeys.tar -d
+- tar xvf configurationkeys.tar
+- chmod +x gradlew
+
+before_deploy:
+- export RELEASE_PKG_FILE=$(ls *.apk)
+- echo "deploying $RELEASE_PKG_FILE to GitHub releases"
+deploy:
+  provider: releases
+  skip_cleanup: true
+  api_key:
+    secure: e+jgkTdDl0oHvZEieNLxyAtcOYZAwUMcEOGXcZXep1NRhlxVLphC+WqrPB+uA/PhxzYK9RVNMTQC11tDjJfBPe25XhXE4YStyX5HRfF7VIDSp0lc6sXnU0IlDnAhgQR14S10SyJINe8h7iEGWVTLJ5XEWhBCrm8cRGMKoj0YMKNWtY44BZuChAaKxttGf9og3xAOQ+y0xG6sCcAv/rr9VMGIutAdEkZta+1PmtxZZ7v2o09sEymAS5Pnlw/1uLKBayiy/YtCsQ7J2I0udec0rLHVC8xIYlV9vyM8u0116xR/KUZmRxjfAySxW3AfZ1eTFJo2vKqQqrxwFFJ7RHItALX9oP8FqNq9WndGUuJiRlUSQcUVXw3PTrMHOvojoVUaAI34DOA9GAmTfKSKqkwj2Gl1M0WyMYsw+44SGypdNELIXiICuusd+i7Tux+Q3YjyQvP7B2xExRoT3ZV3SXlJlDi8omzhezxAkkNjGXcoy4111xvWqngBuNIXXSN+3MPHRvMP9mouk5JiLEjYN+EOqa9lRl/QoiQSSxz/kswPjpgjN/aAzV7yI1RKog3L6UHYS41+Sa1kUJPyi1ocvCKMbrCsbDZu2idvAB0OY7yoC0+kfZIA8PxnNFZANLhUbebpmhQGuT2GNxnELEiGZLZWBbpfouoZQQjzBdbMT5eomMg=
+  file_glob: true
+  file: "${RELEASE_PKG_FILE}"
+  skip_cleanup: true
+  on:
+    tags: true
+    repo: ngengs/cekinote_android
+    branch: master
