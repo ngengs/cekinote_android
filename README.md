@@ -11,7 +11,7 @@ This application use some library
 * [Butterknife](https://github.com/JakeWharton/butterknife)
 
 ### Download
-Check the [release](/releases/latest)
+Check the [release](../../releases/latest)
 
 ### Author
 **Rizky Kharisma**
