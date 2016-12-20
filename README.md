@@ -1,5 +1,5 @@
 # Ceki Note
-[![Build Status](https://travis-ci.com/ngengs/android_apps_cekinote.svg?token=QDHbzaSAGJdzdAN7nY4U&branch=master)](https://travis-ci.com/ngengs/android_apps_cekinote)
+[![Build Status](https://travis-ci.org/ngengs/cekinote_android.svg?branch=master)](https://travis-ci.org/ngengs/cekinote_android)
 
 This is application for note the game score of "Ceki", the card game I always played with my friends.
 
