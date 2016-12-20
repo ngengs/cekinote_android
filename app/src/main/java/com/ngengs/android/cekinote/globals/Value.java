@@ -5,7 +5,7 @@ package com.ngengs.android.cekinote.globals;
  */
 
 public class Value {
-    public static final String URL_REPO = "https://github.com/ngengs/android_apps_cekinote";
+    public static final String URL_REPO = "https://github.com/ngengs/cekinote_android";
     public static final String URL_UPDATE = "http://www.ngengs.com/api/cekinote/check_update/";
     public static final String CONTACT_EMAIL = "me@ngengs.com";
 }
