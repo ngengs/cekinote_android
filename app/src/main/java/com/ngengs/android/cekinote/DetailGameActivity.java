@@ -47,6 +47,8 @@ public class DetailGameActivity extends AppCompatActivity {
     ScoreDao scoreDao;
     Game gameData;
     GameDetailPagerAdapter gameDetailPagerAdapter;
+    private int positionGame;
+    private int numberGame;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +58,8 @@ public class DetailGameActivity extends AppCompatActivity {
         setSupportActionBar(gameDetailToolbar);
         ActionBar actionBar = getSupportActionBar();
         String idGame = getIntent().getStringExtra(Tag.GAME_ID);
-        int positionGame = getIntent().getIntExtra(Tag.GAME_POSITION, -1);
-        int numberGame = getIntent().getIntExtra(Tag.GAME_NUMBER, -1);
+        positionGame = getIntent().getIntExtra(Tag.GAME_POSITION, -1);
+        numberGame = getIntent().getIntExtra(Tag.GAME_NUMBER, -1);
 
         App app = (App) getApplication();
 
@@ -181,6 +183,12 @@ public class DetailGameActivity extends AppCompatActivity {
              Not work for now
              */
 //            gameDetailPagerAdapter.changeToEndGame();
+
+            Intent intent = new Intent(this, DetailGameActivity.class);
+            intent.putExtra(Tag.GAME_ID, gameData.getId());
+            intent.putExtra(Tag.GAME_POSITION, positionGame);
+            intent.putExtra(Tag.GAME_NUMBER, numberGame);
+            startActivityForResult(intent, Tag.REQUEST_DETAIL_GAME);
             finish();
         }
     }
