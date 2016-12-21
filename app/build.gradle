@@ -12,8 +12,8 @@ android {
         applicationId "com.ngengs.android.cekinote"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 10000002
-        versionName "1.0.0-beta.2"
+        versionCode 10000003
+        versionName "1.0.0-beta.3"
         vectorDrawables.useSupportLibrary = true
     }
 
