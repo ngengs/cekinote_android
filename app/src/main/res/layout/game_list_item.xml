@@ -23,29 +23,31 @@
             android:animateLayoutChanges="true"
             android:orientation="horizontal">
 
-            <View
-                android:id="@+id/indicator_status_game"
-                android:layout_width="16dp"
-                android:layout_height="match_parent"
-                android:background="#000" />
 
             <RelativeLayout
-                android:id="@+id/indicator_selected_game"
+                android:id="@+id/indicator_status_game"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:background="@color/colorAccentLight"
-                android:paddingEnd="@dimen/activity_horizontal_margin"
-                android:paddingLeft="@dimen/activity_margin_none"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingStart="@dimen/activity_margin_none"
-                android:visibility="gone">
+                android:animateLayoutChanges="true"
+                android:background="@color/colorAccent"
+                android:minWidth="@dimen/activity_horizontal_margin"
+                android:paddingEnd="@dimen/activity_horizontal_margin_small"
+                android:paddingLeft="@dimen/activity_horizontal_margin_small"
+                android:paddingRight="@dimen/activity_horizontal_margin_small"
+                android:paddingStart="@dimen/activity_horizontal_margin_small">
 
                 <ImageView
+                    android:id="@+id/indicator_selected_game"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:contentDescription="@string/text_hint_selected_logo"
+                    android:paddingEnd="@dimen/activity_horizontal_margin"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingRight="@dimen/activity_horizontal_margin"
+                    android:paddingStart="@dimen/activity_horizontal_margin"
                     android:tint="#FFF"
+                    android:visibility="gone"
                     app:srcCompat="@drawable/ic_check" />
 
             </RelativeLayout>
