@@ -1,15 +1,14 @@
 package com.ngengs.android.cekinote.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.NotNull;
-import org.greenrobot.greendao.annotation.OrderBy;
-import org.greenrobot.greendao.annotation.ToMany;
 import org.greenrobot.greendao.annotation.ToOne;
 
-import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
@@ -19,7 +18,7 @@ import org.greenrobot.greendao.DaoException;
  */
 
 @Entity
-public class Game{
+public class Game implements Parcelable{
 
     @Id
     private String id;
@@ -80,6 +79,27 @@ public class Game{
     @Generated(hash = 380959371)
     public Game() {
     }
+
+    protected Game(Parcel in) {
+        id = in.readString();
+        location = in.readString();
+        idPlayer1 = in.readString();
+        idPlayer2 = in.readString();
+        idPlayer3 = in.readString();
+        idPlayer4 = in.readString();
+    }
+
+    public static final Creator<Game> CREATOR = new Creator<Game>() {
+        @Override
+        public Game createFromParcel(Parcel in) {
+            return new Game(in);
+        }
+
+        @Override
+        public Game[] newArray(int size) {
+            return new Game[size];
+        }
+    };
 
     public String getId() {
         return this.id;
@@ -325,11 +345,25 @@ public class Game{
         myDao.update(this);
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(location);
+        dest.writeString(idPlayer1);
+        dest.writeString(idPlayer2);
+        dest.writeString(idPlayer3);
+        dest.writeString(idPlayer4);
+    }
+
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 733596598)
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getGameDao() : null;
     }
-
 }
