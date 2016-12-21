@@ -29,6 +29,7 @@ import com.ngengs.android.cekinote.model.Game;
 import com.ngengs.android.cekinote.model.GameDao;
 import com.ngengs.android.cekinote.utils.ResourceHelper;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -69,6 +70,7 @@ public class MainActivity extends AppCompatActivity
         if (actionBar != null) actionBar.setTitle(R.string.page_title_list_game);
         applicationVersion = ButterKnife.findById(navigationView.getHeaderView(0), R.id.app_version);
         applicationVersion.setText(getVersion());
+        manipulateHeaderColor(ResourceHelper.getColor(this, R.color.colorPrimary), ResourceHelper.getColor(this, R.color.colorPrimaryDark));
         App app = (App) getApplication();
 
         DaoSession session = app.getDaoSession();
@@ -97,7 +99,30 @@ public class MainActivity extends AppCompatActivity
         });
         gameData = new ArrayList<>();
         selectedGame = new ArrayList<>();
-        updateDataGame();
+        if (savedInstanceState != null) {
+            Serializable temp = savedInstanceState.getSerializable(Tag.GAME_DATA);
+            if (temp != null) {
+                gameData.clear();
+                gameData.addAll((List) temp);
+                adapter.updateAllData(gameData);
+            } else {
+                updateDataGame();
+            }
+
+            Serializable tempSelected = savedInstanceState.getSerializable(Tag.GAME_SELECTED);
+            if (tempSelected != null) {
+                selectedGame.addAll((List) tempSelected);
+                if (!selectedGame.isEmpty()) {
+                    for (int i : selectedGame) {
+                        adapter.addSelected(i);
+                    }
+                    changeHeaderLook(true);
+                    invalidateOptionsMenu();
+                }
+            }
+        } else {
+            updateDataGame();
+        }
         gameRecyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         gameRecyclerView.setLayoutManager(layoutManager);
@@ -109,7 +134,6 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(this);
-        manipulateHeaderColor(ResourceHelper.getColor(this, R.color.colorPrimary), ResourceHelper.getColor(this, R.color.colorPrimaryDark));
     }
 
     private void longPressGameActivity(final int position) {
@@ -249,7 +273,11 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void changeHeaderLook() {
-        if (!selectedGame.isEmpty() && selectedGame.size() == 1) {
+        changeHeaderLook(false);
+    }
+
+    public void changeHeaderLook(boolean forceChange) {
+        if (!selectedGame.isEmpty() && (selectedGame.size() == 1 || forceChange)) {
             manipulateHeaderColor(ResourceHelper.getColor(this, R.color.colorAccent), ResourceHelper.getColor(this, R.color.colorAccentDark));
             fab.hide();
         } else if (selectedGame.isEmpty()) {
@@ -283,5 +311,12 @@ public class MainActivity extends AppCompatActivity
         String version = "";
         if (pInfo != null) version = pInfo.versionName;
         return version;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putSerializable(Tag.GAME_DATA, new ArrayList<>(gameData));
+        outState.putSerializable(Tag.GAME_SELECTED, new ArrayList<>(selectedGame));
+        super.onSaveInstanceState(outState);
     }
 }
