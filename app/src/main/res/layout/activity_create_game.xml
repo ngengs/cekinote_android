@@ -46,6 +46,7 @@
                         android:id="@+id/player1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:foreground="?attr/selectableItemBackground"
                         android:padding="@dimen/activity_vertical_margin"
                         android:text="@string/player_number_1"
                         android:textSize="@dimen/text_size_large" />
@@ -59,6 +60,7 @@
                         android:id="@+id/player2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:foreground="?attr/selectableItemBackground"
                         android:padding="@dimen/activity_vertical_margin"
                         android:text="@string/player_number_2"
                         android:textSize="@dimen/text_size_large" />
@@ -72,6 +74,7 @@
                         android:id="@+id/player3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:foreground="?attr/selectableItemBackground"
                         android:padding="@dimen/activity_vertical_margin"
                         android:text="@string/player_number_3"
                         android:textSize="@dimen/text_size_large" />
@@ -85,6 +88,7 @@
                         android:id="@+id/player4"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:foreground="?attr/selectableItemBackground"
                         android:padding="@dimen/activity_vertical_margin"
                         android:text="@string/player_number_4"
                         android:textSize="@dimen/text_size_large" />
