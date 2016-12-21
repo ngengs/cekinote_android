@@ -187,6 +187,7 @@ public class DetailGameActivity extends AppCompatActivity {
             intent.putExtra(Tag.GAME_POSITION, positionGame);
             intent.putExtra(Tag.GAME_NUMBER, numberGame);
             startActivityForResult(intent, Tag.REQUEST_DETAIL_GAME);
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             finish();
         }
     }
