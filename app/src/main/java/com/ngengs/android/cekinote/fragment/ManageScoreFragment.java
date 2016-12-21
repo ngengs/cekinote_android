@@ -106,10 +106,10 @@ public class ManageScoreFragment extends Fragment {
             activity = (DetailGameActivity) getActivity();
         }
         context = view.getContext();
-        nameManagePlayer1.setText(String.valueOf(namePlayer1));
-        nameManagePlayer2.setText(String.valueOf(namePlayer2));
-        nameManagePlayer3.setText(String.valueOf(namePlayer3));
-        nameManagePlayer4.setText(String.valueOf(namePlayer4));
+        nameManagePlayer1.setText(String.format(getString(R.string.player_number_format),1,namePlayer1));
+        nameManagePlayer2.setText(String.format(getString(R.string.player_number_format),2,namePlayer2));
+        nameManagePlayer3.setText(String.format(getString(R.string.player_number_format),3,namePlayer3));
+        nameManagePlayer4.setText(String.format(getString(R.string.player_number_format),4,namePlayer4));
         return view;
     }
 
