@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <shortcut
+        android:shortcutId="compose"
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_add"
+        android:shortcutShortLabel="@string/shortcut_create_game_label_short"
+        android:shortcutLongLabel="@string/shortcut_create_game_label_long"
+        android:shortcutDisabledMessage="@string/shortcut_create_game_label_disable"
+        tools:targetApi="25">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.ngengs.android.cekinote"
+            android:targetClass="com.ngengs.android.cekinote.CreateGameActivity" />
+    </shortcut>
+</shortcuts>

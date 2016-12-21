@@ -70,6 +70,9 @@ public class CreateGameActivity extends AppCompatActivity {
         gameDao = session.getGameDao();
         playerData = new ArrayList<>();
         updateDataPlayer();
+        if(gameNumber == -1){
+            gameNumber = gameDao.queryBuilder().orderDesc(GameDao.Properties.DateStart).list().size() + 1;
+        }
     }
 
     private void updateDataPlayer() {

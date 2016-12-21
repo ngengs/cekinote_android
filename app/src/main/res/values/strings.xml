@@ -55,4 +55,8 @@
 
     <string name="natice_complete_select_player">You must complete all the player data to create the game</string>
     <string name="natice_complete_score_player">Complete all player score to add the score to the game</string>
+
+    <string name="shortcut_create_game_label_short">Create</string>
+    <string name="shortcut_create_game_label_long">Create New Game</string>
+    <string name="shortcut_create_game_label_disable">Create New Game Disabled</string>
 </resources>
