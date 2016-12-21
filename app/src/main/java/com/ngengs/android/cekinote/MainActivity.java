@@ -199,13 +199,15 @@ public class MainActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.menu_end_game) {
             Date now = new Date();
+            List<Game> tempGame = new ArrayList<>();
             for (int position : selectedGame) {
                 Game game = gameData.get(position);
                 game.setDateFinish(now);
+                tempGame.add(game);
+                adapter.updateData(game, position);
                 adapter.removeSelected(position);
-                gameDao.update(game);
-                gameDao.refresh(game);
             }
+            gameDao.updateInTx(tempGame);
             selectedGame.clear();
             changeHeaderLook();
 
