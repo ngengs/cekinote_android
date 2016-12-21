@@ -30,7 +30,9 @@
             android:background="@color/colorPrimary"
             android:minHeight="?attr/actionBarSize"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:elevation="4dp" />
+            app:elevation="4dp"
+            app:tabGravity="fill"
+            app:tabMaxWidth="0dp" />
 
     </android.support.design.widget.AppBarLayout>
 
