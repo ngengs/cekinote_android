@@ -151,10 +151,7 @@ public class DetailGameActivity extends AppCompatActivity {
         Score score2 = new Score(UUID.randomUUID().toString(), gameData.getIdPlayer2(), gameData.getId(), scorePlayer2, new Date());
         Score score3 = new Score(UUID.randomUUID().toString(), gameData.getIdPlayer3(), gameData.getId(), scorePlayer3, new Date());
         Score score4 = new Score(UUID.randomUUID().toString(), gameData.getIdPlayer4(), gameData.getId(), scorePlayer4, new Date());
-        scoreDao.insert(score1);
-        scoreDao.insert(score2);
-        scoreDao.insert(score3);
-        scoreDao.insert(score4);
+        scoreDao.insertInTx(score1, score2, score3, score4);
         gameDetailPagerAdapter.updateDataScore(score1, score2, score3, score4);
     }
 
