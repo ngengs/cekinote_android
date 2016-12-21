@@ -20,6 +20,10 @@ public class Tag {
     public static final String PLAYER_NAME2 = "PLAYERNAME2";
     public static final String PLAYER_NAME3 = "PLAYERNAME3";
     public static final String PLAYER_NAME4 = "PLAYERNAME4";
+    public static final String PLAYER_SCORE1 = "PLAYERSCORE1";
+    public static final String PLAYER_SCORE2 = "PLAYERSCORE2";
+    public static final String PLAYER_SCORE3 = "PLAYERSCORE3";
+    public static final String PLAYER_SCORE4 = "PLAYERSCORE4";
 
     public static final int REQUEST_DETAIL_GAME = 145;
     public static final int REQUEST_CREATE_GAME = 135;

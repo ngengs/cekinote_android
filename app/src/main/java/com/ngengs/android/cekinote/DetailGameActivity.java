@@ -90,19 +90,18 @@ public class DetailGameActivity extends AppCompatActivity {
     }
 
     private void createTabPage() {
-        String[] defaultTabTitle = getResources().getStringArray(R.array.detail_game_active);
         String[] usedTabTitle;
         if (isGameFinish()) {
             usedTabTitle = getResources().getStringArray(R.array.detail_game_finish);
         } else {
-            usedTabTitle = defaultTabTitle;
+            usedTabTitle = getResources().getStringArray(R.array.detail_game_active);
         }
         final String idGame = gameData.getId();
         final List<Score> scorePlayer1 = scoreDao.queryBuilder().where(ScoreDao.Properties.IdGame.eq(idGame), ScoreDao.Properties.IdPlayer.eq(gameData.getIdPlayer1())).orderAsc(ScoreDao.Properties.Date).list();
         final List<Score> scorePlayer2 = scoreDao.queryBuilder().where(ScoreDao.Properties.IdGame.eq(idGame), ScoreDao.Properties.IdPlayer.eq(gameData.getIdPlayer2())).orderAsc(ScoreDao.Properties.Date).list();
         final List<Score> scorePlayer3 = scoreDao.queryBuilder().where(ScoreDao.Properties.IdGame.eq(idGame), ScoreDao.Properties.IdPlayer.eq(gameData.getIdPlayer3())).orderAsc(ScoreDao.Properties.Date).list();
         final List<Score> scorePlayer4 = scoreDao.queryBuilder().where(ScoreDao.Properties.IdGame.eq(idGame), ScoreDao.Properties.IdPlayer.eq(gameData.getIdPlayer4())).orderAsc(ScoreDao.Properties.Date).list();
-        gameDetailPagerAdapter = new GameDetailPagerAdapter(getSupportFragmentManager(), usedTabTitle, defaultTabTitle, gameData, scorePlayer1, scorePlayer2, scorePlayer3, scorePlayer4);
+        gameDetailPagerAdapter = new GameDetailPagerAdapter(getSupportFragmentManager(), usedTabTitle, gameData, scorePlayer1, scorePlayer2, scorePlayer3, scorePlayer4);
         gameDetailPager.setAdapter(gameDetailPagerAdapter);
         gameDetailTab.setupWithViewPager(gameDetailPager);
     }

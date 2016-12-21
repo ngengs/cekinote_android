@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.ngengs.android.cekinote.DetailGameActivity;
 import com.ngengs.android.cekinote.R;
+import com.ngengs.android.cekinote.globals.Tag;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,6 +33,7 @@ public class ManageScoreFragment extends Fragment {
     private static final String ARG_PARAM2 = "PLAYER_NAME2";
     private static final String ARG_PARAM3 = "PLAYER_NAME3";
     private static final String ARG_PARAM4 = "PLAYER_NAME4";
+    private final int defaultScoreInt = -999999999;
     @BindView(R.id.name_manage_score_player1)
     TextView nameManagePlayer1;
     @BindView(R.id.score_manage_score_player1)
@@ -58,14 +60,16 @@ public class ManageScoreFragment extends Fragment {
     LinearLayout layoutManagePlayer4;
     @BindView(R.id.score_manage_add)
     FloatingActionButton scoreManageAdd;
-
     private String namePlayer1;
     private String namePlayer2;
     private String namePlayer3;
     private String namePlayer4;
-    private String defaultScore;
+    private String defaultScoreString;
     private Context context;
-
+    private int scorePlayer1;
+    private int scorePlayer2;
+    private int scorePlayer3;
+    private int scorePlayer4;
     private DetailGameActivity activity;
     private Unbinder unbinder;
 
@@ -94,7 +98,18 @@ public class ManageScoreFragment extends Fragment {
             namePlayer3 = getArguments().getString(ARG_PARAM3);
             namePlayer4 = getArguments().getString(ARG_PARAM4);
         }
-        defaultScore = getString(R.string.text_value_abstract);
+        if (savedInstanceState != null) {
+            scorePlayer1 = savedInstanceState.getInt(Tag.PLAYER_SCORE1);
+            scorePlayer2 = savedInstanceState.getInt(Tag.PLAYER_SCORE2);
+            scorePlayer3 = savedInstanceState.getInt(Tag.PLAYER_SCORE3);
+            scorePlayer4 = savedInstanceState.getInt(Tag.PLAYER_SCORE4);
+        } else {
+            scorePlayer1 = defaultScoreInt;
+            scorePlayer2 = defaultScoreInt;
+            scorePlayer3 = defaultScoreInt;
+            scorePlayer4 = defaultScoreInt;
+        }
+        defaultScoreString = getString(R.string.text_value_abstract);
     }
 
     @Override
@@ -106,10 +121,14 @@ public class ManageScoreFragment extends Fragment {
             activity = (DetailGameActivity) getActivity();
         }
         context = view.getContext();
-        nameManagePlayer1.setText(String.format(getString(R.string.player_number_format),1,namePlayer1));
-        nameManagePlayer2.setText(String.format(getString(R.string.player_number_format),2,namePlayer2));
-        nameManagePlayer3.setText(String.format(getString(R.string.player_number_format),3,namePlayer3));
-        nameManagePlayer4.setText(String.format(getString(R.string.player_number_format),4,namePlayer4));
+        nameManagePlayer1.setText(String.format(getString(R.string.player_number_format), 1, namePlayer1));
+        nameManagePlayer2.setText(String.format(getString(R.string.player_number_format), 2, namePlayer2));
+        nameManagePlayer3.setText(String.format(getString(R.string.player_number_format), 3, namePlayer3));
+        nameManagePlayer4.setText(String.format(getString(R.string.player_number_format), 4, namePlayer4));
+        scoreToText(1, String.valueOf(scorePlayer1));
+        scoreToText(2, String.valueOf(scorePlayer2));
+        scoreToText(3, String.valueOf(scorePlayer3));
+        scoreToText(4, String.valueOf(scorePlayer4));
         return view;
     }
 
@@ -146,20 +165,7 @@ public class ManageScoreFragment extends Fragment {
                 .input(String.format(getString(R.string.title_score_format), name), null, new MaterialDialog.InputCallback() {
                     @Override
                     public void onInput(MaterialDialog dialog, CharSequence input) {
-                        switch (position) {
-                            case 1:
-                                scoreManagePlayer1.setText(input);
-                                break;
-                            case 2:
-                                scoreManagePlayer2.setText(input);
-                                break;
-                            case 3:
-                                scoreManagePlayer3.setText(input);
-                                break;
-                            case 4:
-                                scoreManagePlayer4.setText(input);
-                                break;
-                        }
+                        scoreToText(position, input.toString());
                     }
                 })
                 .show();
@@ -167,18 +173,54 @@ public class ManageScoreFragment extends Fragment {
 
     @OnClick(R.id.score_manage_add)
     protected void onClickAddScore() {
-        if (scoreManagePlayer1.getText().toString().equals(defaultScore) || scoreManagePlayer2.getText().toString().equals(defaultScore) || scoreManagePlayer3.getText().toString().equals(defaultScore) || scoreManagePlayer4.getText().toString().equals(defaultScore)) {
+        if (scorePlayer1 == defaultScoreInt || scorePlayer2 == defaultScoreInt || scorePlayer3 == defaultScoreInt || scorePlayer4 == defaultScoreInt) {
             Snackbar.make(scoreManageAdd, R.string.natice_complete_score_player, Snackbar.LENGTH_SHORT).show();
         } else {
-            int score1 = Integer.parseInt(scoreManagePlayer1.getText().toString());
-            int score2 = Integer.parseInt(scoreManagePlayer2.getText().toString());
-            int score3 = Integer.parseInt(scoreManagePlayer3.getText().toString());
-            int score4 = Integer.parseInt(scoreManagePlayer4.getText().toString());
-            activity.addScore(score1, score2, score3, score4);
-            scoreManagePlayer1.setText(defaultScore);
-            scoreManagePlayer2.setText(defaultScore);
-            scoreManagePlayer3.setText(defaultScore);
-            scoreManagePlayer4.setText(defaultScore);
+            activity.addScore(scorePlayer1, scorePlayer2, scorePlayer3, scorePlayer4);
+            scoreToText(1, defaultScoreString);
+            scoreToText(2, defaultScoreString);
+            scoreToText(3, defaultScoreString);
+            scoreToText(4, defaultScoreString);
         }
+    }
+
+    private void scoreToText(int position, String scoreInString) {
+        try {
+            int scoreInNumber;
+            if (scoreInString.equals(defaultScoreString)) scoreInNumber = defaultScoreInt;
+            else if (scoreInString.equals(String.valueOf(defaultScoreInt))) {
+                scoreInString = defaultScoreString;
+                scoreInNumber = defaultScoreInt;
+            } else scoreInNumber = Integer.parseInt(scoreInString);
+
+            switch (position) {
+                case 1:
+                    scorePlayer1 = scoreInNumber;
+                    scoreManagePlayer1.setText(scoreInString);
+                    break;
+                case 2:
+                    scorePlayer2 = scoreInNumber;
+                    scoreManagePlayer2.setText(scoreInString);
+                    break;
+                case 3:
+                    scorePlayer3 = scoreInNumber;
+                    scoreManagePlayer3.setText(scoreInString);
+                    break;
+                case 4:
+                    scorePlayer4 = scoreInNumber;
+                    scoreManagePlayer4.setText(scoreInString);
+                    break;
+            }
+        } catch (NumberFormatException e) {
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putInt(Tag.PLAYER_SCORE1, scorePlayer1);
+        outState.putInt(Tag.PLAYER_SCORE2, scorePlayer2);
+        outState.putInt(Tag.PLAYER_SCORE3, scorePlayer3);
+        outState.putInt(Tag.PLAYER_SCORE4, scorePlayer4);
+        super.onSaveInstanceState(outState);
     }
 }

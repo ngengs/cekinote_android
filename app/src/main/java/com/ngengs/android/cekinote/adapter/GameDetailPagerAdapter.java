@@ -3,13 +3,13 @@ package com.ngengs.android.cekinote.adapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.view.ViewGroup;
 
 import com.ngengs.android.cekinote.fragment.HistoryGameFragment;
 import com.ngengs.android.cekinote.fragment.ManageScoreFragment;
 import com.ngengs.android.cekinote.model.Game;
 import com.ngengs.android.cekinote.model.Score;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -20,30 +20,24 @@ import java.util.List;
 
 public class GameDetailPagerAdapter extends FragmentPagerAdapter {
     private String[] tabTitles;
-    private String[] tabChecker;
     private ManageScoreFragment manageScoreFragment;
     private HistoryGameFragment historyGameFragment;
-    List<Score> scorePlayer1;
-    List<Score> scorePlayer2;
-    List<Score> scorePlayer3;
-    List<Score> scorePlayer4;
 
-    public GameDetailPagerAdapter(FragmentManager fm, String[] title, String[] checker, Game gameData, List<Score> scorePlayer1, List<Score> scorePlayer2, List<Score> scorePlayer3, List<Score> scorePlayer4) {
+    public GameDetailPagerAdapter(FragmentManager fm, String[] title, Game gameData, List<Score> scorePlayer1, List<Score> scorePlayer2, List<Score> scorePlayer3, List<Score> scorePlayer4) {
         super(fm);
-        if (title.length == checker.length) {
+        if (title.length == 2) {
             manageScoreFragment = ManageScoreFragment.newInstance(gameData.getPlayer1().getName(), gameData.getPlayer2().getName(), gameData.getPlayer3().getName(), gameData.getPlayer4().getName());
         }
-        this.scorePlayer1 = new ArrayList<>();
-        this.scorePlayer2 = new ArrayList<>();
-        this.scorePlayer3 = new ArrayList<>();
-        this.scorePlayer4 = new ArrayList<>();
-        this.scorePlayer1.addAll(scorePlayer1);
-        this.scorePlayer2.addAll(scorePlayer2);
-        this.scorePlayer3.addAll(scorePlayer3);
-        this.scorePlayer4.addAll(scorePlayer4);
+        List<Score> scorePlayer11 = new ArrayList<>();
+        List<Score> scorePlayer21 = new ArrayList<>();
+        List<Score> scorePlayer31 = new ArrayList<>();
+        List<Score> scorePlayer41 = new ArrayList<>();
+        scorePlayer11.addAll(scorePlayer1);
+        scorePlayer21.addAll(scorePlayer2);
+        scorePlayer31.addAll(scorePlayer3);
+        scorePlayer41.addAll(scorePlayer4);
         this.tabTitles = title;
-        this.tabChecker = checker;
-        historyGameFragment = HistoryGameFragment.newInstance(gameData.getPlayer1().getName(), gameData.getPlayer2().getName(), gameData.getPlayer3().getName(), gameData.getPlayer4().getName(), this.scorePlayer1, this.scorePlayer2, this.scorePlayer3, this.scorePlayer4);
+        historyGameFragment = HistoryGameFragment.newInstance(gameData.getPlayer1().getName(), gameData.getPlayer2().getName(), gameData.getPlayer3().getName(), gameData.getPlayer4().getName(), scorePlayer11, scorePlayer21, scorePlayer31, scorePlayer41);
     }
 
 
@@ -54,9 +48,14 @@ public class GameDetailPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        if (tabTitles[position].equals(tabChecker[0])) {
-            return manageScoreFragment;
-        } else if (tabTitles[position].equals(tabChecker[1])) {
+        if (getCount() == 2) {
+            switch (position) {
+                case 0:
+                    return manageScoreFragment;
+                case 1:
+                    return historyGameFragment;
+            }
+        } else {
             return historyGameFragment;
         }
         return null;
@@ -77,15 +76,33 @@ public class GameDetailPagerAdapter extends FragmentPagerAdapter {
         }
     }
 
-    public void changeToEndGame(){
+    public void changeToEndGame() {
         List<String> dummy = new ArrayList<>();
         dummy.addAll(Arrays.asList(tabTitles));
         dummy.remove(0);
         tabTitles = dummy.toArray(new String[dummy.size()]);
-        if(manageScoreFragment != null){
+        if (manageScoreFragment != null) {
             manageScoreFragment.onDestroy();
             manageScoreFragment = null;
         }
         notifyDataSetChanged();
+    }
+
+    @Override
+    public Object instantiateItem(ViewGroup container, int position) {
+        Fragment fragment = (Fragment) super.instantiateItem(container, position);
+        if (getCount() == 2) {
+            switch (position) {
+                case 0:
+                    manageScoreFragment = (ManageScoreFragment) fragment;
+                    break;
+                case 1:
+                    historyGameFragment = (HistoryGameFragment) fragment;
+                    break;
+            }
+        } else {
+            historyGameFragment = (HistoryGameFragment) fragment;
+        }
+        return fragment;
     }
 }
