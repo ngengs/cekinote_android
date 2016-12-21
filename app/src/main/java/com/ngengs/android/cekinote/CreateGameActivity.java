@@ -242,7 +242,7 @@ public class CreateGameActivity extends AppCompatActivity {
     }
 
     private void setPlayer(int position, String name, String idPlayer) {
-        final String text = String.format(getString(R.string.player_number_format), 1, name);
+        final String text = String.format(getString(R.string.player_number_format), position, name);
         switch (position) {
             case 1:
                 player1.setText(text);
