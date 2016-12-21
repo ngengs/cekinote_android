@@ -20,6 +20,7 @@ import com.ngengs.android.cekinote.model.GameDao;
 import com.ngengs.android.cekinote.model.Player;
 import com.ngengs.android.cekinote.model.PlayerDao;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -63,15 +64,30 @@ public class CreateGameActivity extends AppCompatActivity {
             actionBar.setTitle(R.string.page_title_create_game);
         }
         App app = (App) getApplication();
-        gameNumber = getIntent().getIntExtra(Tag.GAME_NUMBER, -1);
 
         DaoSession session = app.getDaoSession();
         playerDao = session.getPlayerDao();
         gameDao = session.getGameDao();
         playerData = new ArrayList<>();
-        updateDataPlayer();
-        if(gameNumber == -1){
-            gameNumber = gameDao.queryBuilder().orderDesc(GameDao.Properties.DateStart).list().size() + 1;
+        if (savedInstanceState != null) {
+            Serializable temp = savedInstanceState.getSerializable(Tag.PLAYER_DATA);
+            if (temp != null) playerData.addAll((List) temp);
+            idPlayer1 = savedInstanceState.getString(Tag.PLAYER_DATA1);
+            idPlayer2 = savedInstanceState.getString(Tag.PLAYER_DATA2);
+            idPlayer3 = savedInstanceState.getString(Tag.PLAYER_DATA3);
+            idPlayer4 = savedInstanceState.getString(Tag.PLAYER_DATA4);
+            player1.setText(savedInstanceState.getString(Tag.PLAYER_NAME1));
+            player2.setText(savedInstanceState.getString(Tag.PLAYER_NAME2));
+            player3.setText(savedInstanceState.getString(Tag.PLAYER_NAME3));
+            player4.setText(savedInstanceState.getString(Tag.PLAYER_NAME4));
+            gameLocation.setText(savedInstanceState.getString(Tag.GAME_LOCATION));
+            gameNumber = savedInstanceState.getInt(Tag.GAME_NUMBER);
+        } else {
+            updateDataPlayer();
+            gameNumber = getIntent().getIntExtra(Tag.GAME_NUMBER, -1);
+            if (gameNumber == -1) {
+                gameNumber = gameDao.queryBuilder().orderDesc(GameDao.Properties.DateStart).list().size() + 1;
+            }
         }
     }
 
@@ -264,5 +280,21 @@ public class CreateGameActivity extends AppCompatActivity {
                 idPlayer4 = idPlayer;
                 break;
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putSerializable(Tag.PLAYER_DATA, new ArrayList<>(playerData));
+        outState.putString(Tag.PLAYER_DATA1, idPlayer1);
+        outState.putString(Tag.PLAYER_DATA2, idPlayer2);
+        outState.putString(Tag.PLAYER_DATA3, idPlayer3);
+        outState.putString(Tag.PLAYER_DATA4, idPlayer4);
+        outState.putString(Tag.PLAYER_NAME1, player1.getText().toString());
+        outState.putString(Tag.PLAYER_NAME2, player2.getText().toString());
+        outState.putString(Tag.PLAYER_NAME3, player3.getText().toString());
+        outState.putString(Tag.PLAYER_NAME4, player4.getText().toString());
+        outState.putString(Tag.GAME_LOCATION, gameLocation.getText().toString());
+        outState.putInt(Tag.GAME_NUMBER, gameNumber);
+        super.onSaveInstanceState(outState);
     }
 }
