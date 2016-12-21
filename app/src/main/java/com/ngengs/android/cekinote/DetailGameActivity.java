@@ -147,10 +147,11 @@ public class DetailGameActivity extends AppCompatActivity {
     }
 
     public void addScore(int scorePlayer1, int scorePlayer2, int scorePlayer3, int scorePlayer4) {
-        Score score1 = new Score(UUID.randomUUID().toString(), gameData.getIdPlayer1(), gameData.getId(), scorePlayer1, new Date());
-        Score score2 = new Score(UUID.randomUUID().toString(), gameData.getIdPlayer2(), gameData.getId(), scorePlayer2, new Date());
-        Score score3 = new Score(UUID.randomUUID().toString(), gameData.getIdPlayer3(), gameData.getId(), scorePlayer3, new Date());
-        Score score4 = new Score(UUID.randomUUID().toString(), gameData.getIdPlayer4(), gameData.getId(), scorePlayer4, new Date());
+        final Date date = new Date();
+        Score score1 = new Score(UUID.randomUUID().toString(), gameData.getIdPlayer1(), gameData.getId(), scorePlayer1, date);
+        Score score2 = new Score(UUID.randomUUID().toString(), gameData.getIdPlayer2(), gameData.getId(), scorePlayer2, date);
+        Score score3 = new Score(UUID.randomUUID().toString(), gameData.getIdPlayer3(), gameData.getId(), scorePlayer3, date);
+        Score score4 = new Score(UUID.randomUUID().toString(), gameData.getIdPlayer4(), gameData.getId(), scorePlayer4, date);
         scoreDao.insertInTx(score1, score2, score3, score4);
         gameDetailPagerAdapter.updateDataScore(score1, score2, score3, score4);
     }
