@@ -113,8 +113,8 @@ public class DetailGameActivity extends AppCompatActivity {
         if (gameData != null) {
             if (!isGameFinish()) {
                 getMenuInflater().inflate(R.menu.detail_game, menu);
-                return true;
-            } else return false;
+            }
+            return true;
         } else return false;
     }
 
