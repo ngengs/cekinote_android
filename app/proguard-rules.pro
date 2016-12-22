@@ -16,6 +16,10 @@
 #   public *;
 #}
 
+# Don't note duplicate definition (Legacy Apche Http Client)
+-dontnote android.net.http.*
+-dontnote org.apache.http.**
+
 # Greendao
 ### greenDAO 3
 -keepclassmembers class * extends org.greenrobot.greendao.AbstractDao {

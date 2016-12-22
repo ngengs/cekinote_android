@@ -10,6 +10,7 @@ import android.support.v7.widget.AppCompatDrawableManager;
  */
 
 public class ResourceHelper {
+    @SuppressWarnings("deprecation")
     public static int getColor(Context context, int colorId) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             return context.getResources().getColor(colorId, null);
@@ -18,6 +19,7 @@ public class ResourceHelper {
         }
     }
 
+    @SuppressWarnings("deprecation")
     public static Drawable getDrawable(Context context, int drawableId) {
         Drawable placeholder;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
