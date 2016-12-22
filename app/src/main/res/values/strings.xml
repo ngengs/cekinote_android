@@ -10,6 +10,7 @@
     <string name="tab_detail">Detail Game</string>
 
     <string name="page_title_list_game">List Game</string>
+    <string name="page_title_list_game_selected">%1$d Selected</string>
     <string name="page_title_create_game">Create New Game</string>
     <string name="page_title_detail_game">Detail Game #%1$d</string>
 

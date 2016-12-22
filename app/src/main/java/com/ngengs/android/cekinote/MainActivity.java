@@ -52,14 +52,12 @@ public class MainActivity extends AppCompatActivity
     NavigationView navigationView;
     @BindView(R.id.game_list)
     RecyclerView gameRecyclerView;
-    TextView applicationVersion;
-
-
-    GameDao gameDao;
-    List<Game> gameData;
-
-    GameListAdapter adapter;
-    List<Integer> selectedGame;
+    private GameDao gameDao;
+    private List<Game> gameData;
+    private GameListAdapter adapter;
+    private List<Integer> selectedGame;
+    private TextView applicationVersion;
+    private ActionBar actionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +65,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
+        actionBar = getSupportActionBar();
         if (actionBar != null) actionBar.setTitle(R.string.page_title_list_game);
         applicationVersion = ButterKnife.findById(navigationView.getHeaderView(0), R.id.app_version);
         applicationVersion.setText(getVersion());
@@ -119,7 +117,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @SuppressWarnings("unchecked")
-    private void generateFromSavedInstanceState(Bundle savedInstanceState){
+    private void generateFromSavedInstanceState(Bundle savedInstanceState) {
         Serializable temp = savedInstanceState.getSerializable(Tag.GAME_DATA);
         if (temp != null) {
             gameData.clear();
@@ -136,6 +134,7 @@ public class MainActivity extends AppCompatActivity
                 for (int i : selectedGame) {
                     adapter.addSelected(i);
                 }
+                changeSelectedHeaderTitle();
                 changeHeaderLook(true);
                 invalidateOptionsMenu();
             }
@@ -151,6 +150,7 @@ public class MainActivity extends AppCompatActivity
             adapter.addSelected(position);
             invalidateOptionsMenu();
         }
+        changeSelectedHeaderTitle();
         changeHeaderLook();
     }
 
@@ -178,6 +178,7 @@ public class MainActivity extends AppCompatActivity
                 adapter.removeSelected(position);
             }
             selectedGame.clear();
+            changeSelectedHeaderTitle();
             changeHeaderLook();
         } else {
             super.onBackPressed();
@@ -215,6 +216,7 @@ public class MainActivity extends AppCompatActivity
             }
             gameDao.updateInTx(tempGame);
             selectedGame.clear();
+            changeSelectedHeaderTitle();
             changeHeaderLook();
 
             return true;
@@ -240,7 +242,7 @@ public class MainActivity extends AppCompatActivity
             item.setChecked(false);
         } else if (id == R.id.nav_update) {
             final String updateUrl = Value.URL_UPDATE;
-            String version = getVersion();
+            String version = applicationVersion.getText().toString();
             openBrowser(updateUrl + version);
             item.setChecked(false);
         }
@@ -280,11 +282,17 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public void changeHeaderLook() {
+    private void changeSelectedHeaderTitle() {
+        if (!selectedGame.isEmpty())
+            actionBar.setTitle(String.format(getString(R.string.page_title_list_game_selected), selectedGame.size()));
+        else actionBar.setTitle(R.string.page_title_list_game);
+    }
+
+    private void changeHeaderLook() {
         changeHeaderLook(false);
     }
 
-    public void changeHeaderLook(boolean forceChange) {
+    private void changeHeaderLook(boolean forceChange) {
         if (!selectedGame.isEmpty() && (selectedGame.size() == 1 || forceChange)) {
             manipulateHeaderColor(ResourceHelper.getColor(this, R.color.colorAccent), ResourceHelper.getColor(this, R.color.colorAccentDark));
             fab.hide();
@@ -295,7 +303,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public void manipulateHeaderColor(int colorToolbar, int colorStatusBar) {
+    private void manipulateHeaderColor(int colorToolbar, int colorStatusBar) {
         if (Build.VERSION.SDK_INT >= 21 && colorStatusBar != 0) {
             getWindow().setStatusBarColor(colorStatusBar);
         }
