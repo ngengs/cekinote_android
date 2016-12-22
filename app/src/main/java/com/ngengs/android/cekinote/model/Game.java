@@ -17,6 +17,7 @@ import org.greenrobot.greendao.DaoException;
  * Created by ngengs on 12/15/2016.
  */
 
+@SuppressWarnings({"WeakerAccess", "unused"})
 @Entity
 public class Game implements Parcelable{
 
