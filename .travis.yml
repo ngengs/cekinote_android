@@ -28,4 +28,6 @@ deploy:
   on:
     tags: true
     repo: ngengs/cekinote_android
-    all_branches: true
+    branch:
+    - master
+    - beta
