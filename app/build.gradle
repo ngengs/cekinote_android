@@ -12,7 +12,7 @@ android {
         applicationId "com.ngengs.android.cekinote"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 10000003
+        versionCode 10000004
         versionName "1.0.0"
         vectorDrawables.useSupportLibrary = true
     }
@@ -49,7 +49,7 @@ android {
         beta {
             minifyEnabled true
             signingConfig signingConfigs.beta
-            versionNameSuffix '-beta.3'
+            versionNameSuffix '-beta.4'
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             applicationVariants.all { variant ->
                 variant.outputs.each { output ->
