@@ -28,4 +28,5 @@ deploy:
   on:
     tags: true
     repo: ngengs/cekinote_android
-    branch: master
+    all_branches: true
+    condition: "$TRAVIS_BRANCH == beta || $TRAVIS_BRANCH == master"
