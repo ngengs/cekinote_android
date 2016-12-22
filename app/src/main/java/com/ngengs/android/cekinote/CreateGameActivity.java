@@ -71,18 +71,7 @@ public class CreateGameActivity extends AppCompatActivity {
         gameDao = session.getGameDao();
         playerData = new ArrayList<>();
         if (savedInstanceState != null) {
-            Serializable temp = savedInstanceState.getSerializable(Tag.PLAYER_DATA);
-            if (temp != null) playerData.addAll((List) temp);
-            idPlayer1 = savedInstanceState.getString(Tag.PLAYER_DATA1);
-            idPlayer2 = savedInstanceState.getString(Tag.PLAYER_DATA2);
-            idPlayer3 = savedInstanceState.getString(Tag.PLAYER_DATA3);
-            idPlayer4 = savedInstanceState.getString(Tag.PLAYER_DATA4);
-            player1.setText(savedInstanceState.getString(Tag.PLAYER_NAME1));
-            player2.setText(savedInstanceState.getString(Tag.PLAYER_NAME2));
-            player3.setText(savedInstanceState.getString(Tag.PLAYER_NAME3));
-            player4.setText(savedInstanceState.getString(Tag.PLAYER_NAME4));
-            gameLocation.setText(savedInstanceState.getString(Tag.GAME_LOCATION));
-            gameNumber = savedInstanceState.getInt(Tag.GAME_NUMBER);
+            generateFromSavedInstanceState(savedInstanceState);
         } else {
             updateDataPlayer();
             gameNumber = getIntent().getIntExtra(Tag.GAME_NUMBER, -1);
@@ -90,6 +79,22 @@ public class CreateGameActivity extends AppCompatActivity {
                 gameNumber = gameDao.queryBuilder().orderDesc(GameDao.Properties.DateStart).list().size() + 1;
             }
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    private void generateFromSavedInstanceState(Bundle savedInstanceState){
+        Serializable temp = savedInstanceState.getSerializable(Tag.PLAYER_DATA);
+        if (temp != null) playerData.addAll((List) temp);
+        idPlayer1 = savedInstanceState.getString(Tag.PLAYER_DATA1);
+        idPlayer2 = savedInstanceState.getString(Tag.PLAYER_DATA2);
+        idPlayer3 = savedInstanceState.getString(Tag.PLAYER_DATA3);
+        idPlayer4 = savedInstanceState.getString(Tag.PLAYER_DATA4);
+        player1.setText(savedInstanceState.getString(Tag.PLAYER_NAME1));
+        player2.setText(savedInstanceState.getString(Tag.PLAYER_NAME2));
+        player3.setText(savedInstanceState.getString(Tag.PLAYER_NAME3));
+        player4.setText(savedInstanceState.getString(Tag.PLAYER_NAME4));
+        gameLocation.setText(savedInstanceState.getString(Tag.GAME_LOCATION));
+        gameNumber = savedInstanceState.getInt(Tag.GAME_NUMBER);
     }
 
     private void updateDataPlayer() {

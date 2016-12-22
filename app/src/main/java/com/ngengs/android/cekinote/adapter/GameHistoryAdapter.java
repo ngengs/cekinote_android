@@ -55,6 +55,7 @@ public class GameHistoryAdapter extends RecyclerView.Adapter<GameHistoryAdapter.
         addScore(data, getItemCount());
     }
 
+    @SuppressWarnings("WeakerAccess")
     public void addScore(int[] data, int position) {
         if (data.length == 4) {
             scoreData.add(position, data);

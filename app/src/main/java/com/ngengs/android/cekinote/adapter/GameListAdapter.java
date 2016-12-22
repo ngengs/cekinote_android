@@ -89,6 +89,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.ViewHo
         return data.size();
     }
 
+    @SuppressWarnings("unused")
     public void addData(Game data, int position) {
         this.data.add(position, data);
         notifyItemInserted(position);
@@ -125,6 +126,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.ViewHo
         }
     }
 
+    @SuppressWarnings("unused")
     public void removeSelected() {
         if (selected != null) {
             selected.clear();

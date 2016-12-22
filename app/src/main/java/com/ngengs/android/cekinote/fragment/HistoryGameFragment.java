@@ -96,15 +96,20 @@ public class HistoryGameFragment extends Fragment {
         scorePlayer3 = new ArrayList<>();
         scorePlayer4 = new ArrayList<>();
         if (getArguments() != null) {
-            playerName1 = getArguments().getString(ARG_PARAM1);
-            playerName2 = getArguments().getString(ARG_PARAM2);
-            playerName3 = getArguments().getString(ARG_PARAM3);
-            playerName4 = getArguments().getString(ARG_PARAM4);
-            scorePlayer1.addAll((List) getArguments().getSerializable(ARG_PARAM5));
-            scorePlayer2.addAll((List) getArguments().getSerializable(ARG_PARAM6));
-            scorePlayer3.addAll((List) getArguments().getSerializable(ARG_PARAM7));
-            scorePlayer4.addAll((List) getArguments().getSerializable(ARG_PARAM8));
+            generateFromArguments(getArguments());
         }
+    }
+
+    @SuppressWarnings({"unchecked", "ConstantConditions"})
+    private void generateFromArguments(Bundle argument){
+        playerName1 = argument.getString(ARG_PARAM1);
+        playerName2 = argument.getString(ARG_PARAM2);
+        playerName3 = argument.getString(ARG_PARAM3);
+        playerName4 = argument.getString(ARG_PARAM4);
+        scorePlayer1.addAll((List) argument.getSerializable(ARG_PARAM5));
+        scorePlayer2.addAll((List) argument.getSerializable(ARG_PARAM6));
+        scorePlayer3.addAll((List) argument.getSerializable(ARG_PARAM7));
+        scorePlayer4.addAll((List) argument.getSerializable(ARG_PARAM8));
     }
 
     @Override

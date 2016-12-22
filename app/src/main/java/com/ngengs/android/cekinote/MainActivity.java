@@ -101,26 +101,7 @@ public class MainActivity extends AppCompatActivity
         gameData = new ArrayList<>();
         selectedGame = new ArrayList<>();
         if (savedInstanceState != null) {
-            Serializable temp = savedInstanceState.getSerializable(Tag.GAME_DATA);
-            if (temp != null) {
-                gameData.clear();
-                gameData.addAll((List) temp);
-                adapter.updateAllData(gameData);
-            } else {
-                updateDataGame();
-            }
-
-            Serializable tempSelected = savedInstanceState.getSerializable(Tag.GAME_SELECTED);
-            if (tempSelected != null) {
-                selectedGame.addAll((List) tempSelected);
-                if (!selectedGame.isEmpty()) {
-                    for (int i : selectedGame) {
-                        adapter.addSelected(i);
-                    }
-                    changeHeaderLook(true);
-                    invalidateOptionsMenu();
-                }
-            }
+            generateFromSavedInstanceState(savedInstanceState);
         } else {
             updateDataGame();
         }
@@ -135,6 +116,30 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    @SuppressWarnings("unchecked")
+    private void generateFromSavedInstanceState(Bundle savedInstanceState){
+        Serializable temp = savedInstanceState.getSerializable(Tag.GAME_DATA);
+        if (temp != null) {
+            gameData.clear();
+            gameData.addAll((List) temp);
+            adapter.updateAllData(gameData);
+        } else {
+            updateDataGame();
+        }
+
+        Serializable tempSelected = savedInstanceState.getSerializable(Tag.GAME_SELECTED);
+        if (tempSelected != null) {
+            selectedGame.addAll((List) tempSelected);
+            if (!selectedGame.isEmpty()) {
+                for (int i : selectedGame) {
+                    adapter.addSelected(i);
+                }
+                changeHeaderLook(true);
+                invalidateOptionsMenu();
+            }
+        }
     }
 
     private void longPressGameActivity(final int position) {
