@@ -138,24 +138,22 @@ public class ManageScoreFragment extends Fragment {
         unbinder.unbind();
     }
 
-    @OnClick(R.id.layout_manage_score_player1)
-    protected void onClickPlayer1() {
-        createModal(1, namePlayer1);
-    }
-
-    @OnClick(R.id.layout_manage_score_player2)
-    protected void onClickPlayer2() {
-        createModal(2, namePlayer2);
-    }
-
-    @OnClick(R.id.layout_manage_score_player3)
-    protected void onClickPlayer3() {
-        createModal(3, namePlayer3);
-    }
-
-    @OnClick(R.id.layout_manage_score_player4)
-    protected void onClickPlayer4() {
-        createModal(4, namePlayer4);
+    @OnClick({R.id.layout_manage_score_player1, R.id.layout_manage_score_player2, R.id.layout_manage_score_player3, R.id.layout_manage_score_player4})
+    protected void onClickPlayer(View view) {
+        switch (view.getId()) {
+            case R.id.layout_manage_score_player1:
+                createModal(1, namePlayer1);
+                break;
+            case R.id.layout_manage_score_player2:
+                createModal(2, namePlayer2);
+                break;
+            case R.id.layout_manage_score_player3:
+                createModal(3, namePlayer3);
+                break;
+            case R.id.layout_manage_score_player4:
+                createModal(4, namePlayer4);
+                break;
+        }
     }
 
     private void createModal(final int position, final String name) {

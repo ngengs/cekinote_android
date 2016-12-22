@@ -108,28 +108,23 @@ public class CreateGameActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @OnClick(R.id.player1)
-    protected void clickPlayer1() {
+    @OnClick({R.id.player1, R.id.player2, R.id.player3, R.id.player4})
+    protected void clickPlayer(View view) {
         final List<List<String>> player = generatePlayer();
-        selectPlayerDialog(1, player.get(0), player.get(1));
-    }
-
-    @OnClick(R.id.player2)
-    protected void clickPlayer2() {
-        final List<List<String>> player = generatePlayer();
-        selectPlayerDialog(2, player.get(0), player.get(1));
-    }
-
-    @OnClick(R.id.player3)
-    protected void clickPlayer3() {
-        final List<List<String>> player = generatePlayer();
-        selectPlayerDialog(3, player.get(0), player.get(1));
-    }
-
-    @OnClick(R.id.player4)
-    protected void clickPlayer4() {
-        final List<List<String>> player = generatePlayer();
-        selectPlayerDialog(4, player.get(0), player.get(1));
+        switch (view.getId()) {
+            case R.id.player1:
+                selectPlayerDialog(1, player.get(0), player.get(1));
+                break;
+            case R.id.player2:
+                selectPlayerDialog(2, player.get(0), player.get(1));
+                break;
+            case R.id.player3:
+                selectPlayerDialog(3, player.get(0), player.get(1));
+                break;
+            case R.id.player4:
+                selectPlayerDialog(4, player.get(0), player.get(1));
+                break;
+        }
     }
 
     @OnClick(R.id.createGame)
