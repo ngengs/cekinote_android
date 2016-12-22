@@ -110,86 +110,26 @@ public class CreateGameActivity extends AppCompatActivity {
 
     @OnClick(R.id.player1)
     protected void clickPlayer1() {
-        final List<String> playerName = generatePlayer(true);
-        final List<String> playerId = generatePlayer(false);
-        new MaterialDialog.Builder(this)
-                .title(String.format(getString(R.string.title_select_player), 1))
-                .items(playerName)
-                .positiveColorRes(R.color.colorPrimary)
-                .itemsCallback(new MaterialDialog.ListCallback() {
-                    @Override
-                    public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-                        if (which == playerName.size() - 1) {
-                            createNewPlayer(1);
-                        } else {
-                            setPlayer(1, playerName.get(which), playerId.get(which));
-                        }
-                    }
-                })
-                .show();
+        final List<List<String>> player = generatePlayer();
+        selectPlayerDialog(1, player.get(0), player.get(1));
     }
 
     @OnClick(R.id.player2)
     protected void clickPlayer2() {
-        final List<String> playerName = generatePlayer(true);
-        final List<String> playerId = generatePlayer(false);
-        new MaterialDialog.Builder(this)
-                .title(String.format(getString(R.string.title_select_player), 2))
-                .items(playerName)
-                .positiveColorRes(R.color.colorPrimary)
-                .itemsCallback(new MaterialDialog.ListCallback() {
-                    @Override
-                    public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-                        if (which == playerName.size() - 1) {
-                            createNewPlayer(2);
-                        } else {
-                            setPlayer(2, playerName.get(which), playerId.get(which));
-                        }
-                    }
-                })
-                .show();
+        final List<List<String>> player = generatePlayer();
+        selectPlayerDialog(2, player.get(0), player.get(1));
     }
 
     @OnClick(R.id.player3)
     protected void clickPlayer3() {
-        final List<String> playerName = generatePlayer(true);
-        final List<String> playerId = generatePlayer(false);
-        new MaterialDialog.Builder(this)
-                .title(String.format(getString(R.string.title_select_player), 3))
-                .items(playerName)
-                .positiveColorRes(R.color.colorPrimary)
-                .itemsCallback(new MaterialDialog.ListCallback() {
-                    @Override
-                    public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-                        if (which == playerName.size() - 1) {
-                            createNewPlayer(3);
-                        } else {
-                            setPlayer(3, playerName.get(which), playerId.get(which));
-                        }
-                    }
-                })
-                .show();
+        final List<List<String>> player = generatePlayer();
+        selectPlayerDialog(3, player.get(0), player.get(1));
     }
 
     @OnClick(R.id.player4)
     protected void clickPlayer4() {
-        final List<String> playerName = generatePlayer(true);
-        final List<String> playerId = generatePlayer(false);
-        new MaterialDialog.Builder(this)
-                .title(String.format(getString(R.string.title_select_player), 4))
-                .items(playerName)
-                .positiveColorRes(R.color.colorPrimary)
-                .itemsCallback(new MaterialDialog.ListCallback() {
-                    @Override
-                    public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-                        if (which == playerName.size() - 1) {
-                            createNewPlayer(4);
-                        } else {
-                            setPlayer(4, playerName.get(which), playerId.get(which));
-                        }
-                    }
-                })
-                .show();
+        final List<List<String>> player = generatePlayer();
+        selectPlayerDialog(4, player.get(0), player.get(1));
     }
 
     @OnClick(R.id.createGame)
@@ -213,8 +153,10 @@ public class CreateGameActivity extends AppCompatActivity {
         }
     }
 
-    private List<String> generatePlayer(boolean isName) {
+    private List<List<String>> generatePlayer() {
+        List<List<String>> allData = new ArrayList<>(2);
         List<String> name = new ArrayList<>();
+        List<String> id = new ArrayList<>();
         for (Player player : playerData) {
             String tempId = player.getId();
             boolean process = true;
@@ -231,12 +173,32 @@ public class CreateGameActivity extends AppCompatActivity {
                 if (idPlayer4.equals(tempId)) process = false;
             }
             if (process) {
-                if (isName) name.add(player.getName());
-                else name.add(tempId);
+                name.add(player.getName());
+                id.add(tempId);
             }
         }
         name.add(getString(R.string.menu_add_player));
-        return name;
+        allData.add(0, name);
+        allData.add(1, id);
+        return allData;
+    }
+
+    private void selectPlayerDialog(final int playerNumber, final List<String> playerName, final List<String> playerId) {
+        new MaterialDialog.Builder(this)
+                .title(String.format(getString(R.string.title_select_player), playerNumber))
+                .items(playerName)
+                .positiveColorRes(R.color.colorPrimary)
+                .itemsCallback(new MaterialDialog.ListCallback() {
+                    @Override
+                    public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                        if (which == playerName.size() - 1) {
+                            createNewPlayer(playerNumber);
+                        } else {
+                            setPlayer(playerNumber, playerName.get(which), playerId.get(which));
+                        }
+                    }
+                })
+                .show();
     }
 
     private void createNewPlayer(final int forPlayer) {
