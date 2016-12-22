@@ -8,7 +8,7 @@ android:
   - build-tools-25.0.2
   - android-25
 script:
-- if [ "$TRAVIS_BRANCH" == "beta" ]; then ./gradlew assembleBeta else echo "Not Beta" fi
+- if [ "$TRAVIS_BRANCH" == "beta" ]; then ./gradlew assembleBeta; else echo "Not Beta"; fi
 jdk:
 - oraclejdk8
 env:
@@ -17,7 +17,6 @@ env:
 before_install:
 - openssl aes-256-cbc -k "$password_key" -in configurationkeys.tar.enc -out configurationkeys.tar -d
 - tar xvf configurationkeys.tar
-- chmod +x build.sh
 - chmod +x gradlew
 deploy:
   provider: releases
