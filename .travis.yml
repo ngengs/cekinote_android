@@ -8,7 +8,7 @@ android:
   - build-tools-25.0.2
   - android-25
 script:
-- if [ "$TRAVIS_BRANCH" == "beta" ]; then ./gradlew assembleBeta; else ./gradlew assembleRelease; fi
+- if [ "$TRAVIS_BRANCH" == "beta" ];then ./gradlew assembleBeta;elif [[ "$TRAVIS_BRANCH" == v*-beta.* ]];then ./gradlew assembleBeta;else ./gradlew assembleRelease;fi
 jdk:
 - oraclejdk8
 env:
