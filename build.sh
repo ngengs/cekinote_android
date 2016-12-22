@@ -1,7 +1,8 @@
 #!/bin/bash
 
-if [[ $TRAVIS_BRANCH == 'beta' ]]
-  "./gradlew assembleBeta"
+if [ $TRAVIS_BRANCH == "beta" ]
+  then
+    ./gradlew assembleBeta
 else
-  "./gradlew assembleRelease"
+  ./gradlew assembleRelease
 fi
