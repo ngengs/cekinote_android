@@ -13,12 +13,18 @@ android {
         minSdkVersion 16
         targetSdkVersion 25
         versionCode 10000003
-        versionName "1.0.0-beta.3"
+        versionName "1.0.0"
         vectorDrawables.useSupportLibrary = true
     }
 
     signingConfigs {
         release {
+            storeFile file(keystoreProperties['RELEASE_STORE_LOCATION'])
+            storePassword keystoreProperties['RELEASE_STORE_PASSWORD']
+            keyAlias keystoreProperties['RELEASE_KEY_ALIAS']
+            keyPassword keystoreProperties['RELEASE_KEY_PASSWORD']
+        }
+        beta {
             storeFile file(keystoreProperties['RELEASE_STORE_LOCATION'])
             storePassword keystoreProperties['RELEASE_STORE_PASSWORD']
             keyAlias keystoreProperties['RELEASE_KEY_ALIAS']
@@ -36,6 +42,20 @@ android {
                     def newName = output.outputFile.name
                     newName = newName.replace("app-", applicationId + "-")
                     newName = newName.replace("-release", "-v" + versionName + "-build." + getBuildDate() + "-release")
+                    output.outputFile = new File(output.outputFile.parent, newName)
+                }
+            }
+        }
+        beta {
+            minifyEnabled true
+            signingConfig signingConfigs.beta
+            versionNameSuffix '-beta.3'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    def newName = output.outputFile.name
+                    newName = newName.replace("app-", applicationId + "-")
+                    newName = newName.replace("-beta", "-v" + versionName + "-build." + getBuildDate())
                     output.outputFile = new File(output.outputFile.parent, newName)
                 }
             }
