@@ -177,10 +177,6 @@ public class DetailGameActivity extends AppCompatActivity {
             gameDao.update(gameData);
             invalidateOptionsMenu();
             manipulateColorHeader();
-            /*
-             Not work for now
-             */
-//            gameDetailPagerAdapter.changeToEndGame();
 
             Intent intent = new Intent(this, DetailGameActivity.class);
             intent.putExtra(Tag.GAME_ID, gameData.getId());

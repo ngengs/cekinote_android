@@ -17,6 +17,7 @@ import com.ngengs.android.cekinote.utils.ResourceHelper;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -51,7 +52,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Game game = data.get(position);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd.hh:mm");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd.hh:mm", Locale.US);
         String datePlaying = dateFormat.format(game.getDateStart());
         if (game.getDateFinish() == null) {
             holder.indicatorStatusGame.setBackgroundColor(ResourceHelper.getColor(context, R.color.colorPrimary));
@@ -169,12 +170,12 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.ViewHo
         }
 
         @OnClick(R.id.game_card)
-        protected void GameCardClick(View view) {
+        void GameCardClick(View view) {
             clickListener.onItemClick(getAdapterPosition(), view);
         }
 
         @OnLongClick(R.id.game_card)
-        protected boolean GameCardLongClick(View view) {
+        boolean GameCardLongClick(View view) {
             return clickListener.onItemLongClick(getAdapterPosition(), view);
         }
     }

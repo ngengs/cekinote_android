@@ -11,7 +11,6 @@ import com.ngengs.android.cekinote.model.Game;
 import com.ngengs.android.cekinote.model.Score;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -66,26 +65,10 @@ public class GameDetailPagerAdapter extends FragmentPagerAdapter {
         return tabTitles.length;
     }
 
-    public void updateDataGame(Game game) {
-
-    }
-
     public void updateDataScore(Score scorePlayer1, Score scorePlayer2, Score scorePlayer3, Score scorePlayer4) {
         if (historyGameFragment != null) {
             historyGameFragment.updateScore(scorePlayer1, scorePlayer2, scorePlayer3, scorePlayer4);
         }
-    }
-
-    public void changeToEndGame() {
-        List<String> dummy = new ArrayList<>();
-        dummy.addAll(Arrays.asList(tabTitles));
-        dummy.remove(0);
-        tabTitles = dummy.toArray(new String[dummy.size()]);
-        if (manageScoreFragment != null) {
-            manageScoreFragment.onDestroy();
-            manageScoreFragment = null;
-        }
-        notifyDataSetChanged();
     }
 
     @Override

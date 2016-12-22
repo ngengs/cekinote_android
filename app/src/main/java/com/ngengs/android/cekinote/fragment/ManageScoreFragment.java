@@ -3,6 +3,7 @@ package com.ngengs.android.cekinote.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -162,7 +163,7 @@ public class ManageScoreFragment extends Fragment {
                 .positiveColorRes(R.color.colorPrimary)
                 .input(String.format(getString(R.string.title_score_format), name), null, new MaterialDialog.InputCallback() {
                     @Override
-                    public void onInput(MaterialDialog dialog, CharSequence input) {
+                    public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
                         scoreToText(position, input.toString());
                     }
                 })
@@ -210,6 +211,7 @@ public class ManageScoreFragment extends Fragment {
                     break;
             }
         } catch (NumberFormatException e) {
+            e.printStackTrace();
         }
     }
 
