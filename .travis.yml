@@ -7,7 +7,8 @@ android:
   - tools
   - build-tools-25.0.2
   - android-25
-script: "./build.sh"
+script:
+- if [ "$TRAVIS_BRANCH" == "beta" ]; then ./gradlew assembleBeta else echo "Not Beta" fi
 jdk:
 - oraclejdk8
 env:
