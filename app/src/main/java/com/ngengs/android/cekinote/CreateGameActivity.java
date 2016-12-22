@@ -47,12 +47,12 @@ public class CreateGameActivity extends AppCompatActivity {
     FloatingActionButton createGame;
 
 
-    PlayerDao playerDao;
-    GameDao gameDao;
-    List<Player> playerData;
+    private PlayerDao playerDao;
+    private GameDao gameDao;
+    private List<Player> playerData;
 
-    String idPlayer1, idPlayer2, idPlayer3, idPlayer4;
-    int gameNumber;
+    private String idPlayer1, idPlayer2, idPlayer3, idPlayer4;
+    private int gameNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

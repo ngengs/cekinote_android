@@ -43,10 +43,10 @@ public class DetailGameActivity extends AppCompatActivity {
     @BindView(R.id.game_detail_pager)
     ViewPager gameDetailPager;
 
-    GameDao gameDao;
-    ScoreDao scoreDao;
-    Game gameData;
-    GameDetailPagerAdapter gameDetailPagerAdapter;
+    private GameDao gameDao;
+    private ScoreDao scoreDao;
+    private Game gameData;
+    private GameDetailPagerAdapter gameDetailPagerAdapter;
     private int positionGame;
     private int numberGame;
 
