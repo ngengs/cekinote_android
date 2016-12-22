@@ -19,7 +19,7 @@ public class ResourceHelper {
         }
     }
 
-    @SuppressWarnings("deprecation")
+    @SuppressWarnings({"deprecation", "unused"})
     public static Drawable getDrawable(Context context, int drawableId) {
         Drawable placeholder;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
