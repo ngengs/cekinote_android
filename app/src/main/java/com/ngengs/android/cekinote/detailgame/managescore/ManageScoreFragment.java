@@ -1,4 +1,4 @@
-package com.ngengs.android.cekinote.fragment;
+package com.ngengs.android.cekinote.detailgame.managescore;
 
 
 import android.content.Context;
@@ -15,9 +15,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.ngengs.android.cekinote.DetailGameActivity;
 import com.ngengs.android.cekinote.R;
-import com.ngengs.android.cekinote.globals.Tag;
+import com.ngengs.android.cekinote.data.Tag;
+import com.ngengs.android.cekinote.detailgame.DetailGameActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -134,6 +134,15 @@ public class ManageScoreFragment extends Fragment {
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putInt(Tag.PLAYER_SCORE1, scorePlayer1);
+        outState.putInt(Tag.PLAYER_SCORE2, scorePlayer2);
+        outState.putInt(Tag.PLAYER_SCORE3, scorePlayer3);
+        outState.putInt(Tag.PLAYER_SCORE4, scorePlayer4);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
@@ -213,14 +222,5 @@ public class ManageScoreFragment extends Fragment {
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        outState.putInt(Tag.PLAYER_SCORE1, scorePlayer1);
-        outState.putInt(Tag.PLAYER_SCORE2, scorePlayer2);
-        outState.putInt(Tag.PLAYER_SCORE3, scorePlayer3);
-        outState.putInt(Tag.PLAYER_SCORE4, scorePlayer4);
-        super.onSaveInstanceState(outState);
     }
 }

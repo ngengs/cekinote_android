@@ -1,4 +1,4 @@
-package com.ngengs.android.cekinote.adapter;
+package com.ngengs.android.cekinote.detailgame.history;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,10 +18,10 @@ import butterknife.ButterKnife;
  * Created by ngengs on 12/20/2016.
  */
 
-public class GameHistoryAdapter extends RecyclerView.Adapter<GameHistoryAdapter.ViewHolder> {
+class GameHistoryAdapter extends RecyclerView.Adapter<GameHistoryAdapter.ViewHolder> {
     private List<int[]> scoreData;
 
-    public GameHistoryAdapter(List<int[]> scoreData) {
+    GameHistoryAdapter(List<int[]> scoreData) {
         this.scoreData = new ArrayList<>();
         if (scoreData != null) {
             this.scoreData.addAll(scoreData);
@@ -51,7 +51,7 @@ public class GameHistoryAdapter extends RecyclerView.Adapter<GameHistoryAdapter.
         return scoreData.size();
     }
 
-    public void addScore(int[] data) {
+    void addScore(int[] data) {
         addScore(data, getItemCount());
     }
 

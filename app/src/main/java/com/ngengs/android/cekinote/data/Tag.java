@@ -1,4 +1,4 @@
-package com.ngengs.android.cekinote.globals;
+package com.ngengs.android.cekinote.data;
 
 /**
  * Created by ngengs on 12/20/2016.

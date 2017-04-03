@@ -1,4 +1,4 @@
-package com.ngengs.android.cekinote;
+package com.ngengs.android.cekinote.detailgame;
 
 import android.content.Intent;
 import android.os.Build;
@@ -14,13 +14,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.ngengs.android.cekinote.adapter.GameDetailPagerAdapter;
-import com.ngengs.android.cekinote.globals.Tag;
-import com.ngengs.android.cekinote.model.DaoSession;
-import com.ngengs.android.cekinote.model.Game;
-import com.ngengs.android.cekinote.model.GameDao;
-import com.ngengs.android.cekinote.model.Score;
-import com.ngengs.android.cekinote.model.ScoreDao;
+import com.ngengs.android.cekinote.App;
+import com.ngengs.android.cekinote.R;
+import com.ngengs.android.cekinote.data.Tag;
+import com.ngengs.android.cekinote.data.model.DaoSession;
+import com.ngengs.android.cekinote.data.model.Game;
+import com.ngengs.android.cekinote.data.model.GameDao;
+import com.ngengs.android.cekinote.data.model.Score;
+import com.ngengs.android.cekinote.data.model.ScoreDao;
 import com.ngengs.android.cekinote.utils.ResourceHelper;
 
 import java.util.Date;
@@ -119,6 +120,21 @@ public class DetailGameActivity extends AppCompatActivity {
         } else return false;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.action_end_game:
+                endGame();
+                break;
+            case android.R.id.home:
+                onBackPressed();
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     private void manipulateColorHeader() {
         int color, colorDark, colorIndicator;
         if (isGameFinish()) {
@@ -154,21 +170,6 @@ public class DetailGameActivity extends AppCompatActivity {
         Score score4 = new Score(UUID.randomUUID().toString(), gameData.getIdPlayer4(), gameData.getId(), scorePlayer4, date);
         scoreDao.insertInTx(score1, score2, score3, score4);
         gameDetailPagerAdapter.updateDataScore(score1, score2, score3, score4);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        switch (id) {
-            case R.id.action_end_game:
-                endGame();
-                break;
-            case android.R.id.home:
-                onBackPressed();
-                break;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     public void endGame() {

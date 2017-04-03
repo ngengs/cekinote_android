@@ -1,4 +1,4 @@
-package com.ngengs.android.cekinote.adapter;
+package com.ngengs.android.cekinote.main;
 
 import android.content.Context;
 import android.support.v7.widget.CardView;
@@ -7,11 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ngengs.android.cekinote.R;
-import com.ngengs.android.cekinote.model.Game;
+import com.ngengs.android.cekinote.data.model.Game;
 import com.ngengs.android.cekinote.utils.ResourceHelper;
 
 import java.text.SimpleDateFormat;
@@ -28,14 +27,14 @@ import butterknife.OnLongClick;
  * Created by ngengs on 12/15/2016.
  */
 
-public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.ViewHolder> {
+class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.ViewHolder> {
 
     private static GameItemClickListener clickListener;
     private List<Game> data;
     private List<Integer> selected;
     private Context context;
 
-    public GameListAdapter(Context context, List<Game> data) {
+    GameListAdapter(Context context, List<Game> data) {
         this.context = context;
         this.data = new ArrayList<>();
         this.selected = new ArrayList<>();
@@ -90,25 +89,25 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.ViewHo
     }
 
     @SuppressWarnings("unused")
-    public void addData(Game data, int position) {
+    void addData(Game data, int position) {
         this.data.add(position, data);
         notifyItemInserted(position);
     }
 
-    public void updateAllData(List<Game> data) {
+    void updateAllData(List<Game> data) {
         notifyItemRangeRemoved(0, this.data.size());
         this.data.clear();
         this.data.addAll(data);
         notifyItemInserted(0);
     }
 
-    public void updateData(Game data, int position) {
+    void updateData(Game data, int position) {
         this.data.remove(position);
         this.data.add(position, data);
         notifyItemChanged(position);
     }
 
-    public void addSelected(int position) {
+    void addSelected(int position) {
         if (selected != null) {
             if (!selected.contains(position)) {
                 selected.add(position);
@@ -117,7 +116,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.ViewHo
         }
     }
 
-    public void removeSelected(int position) {
+    void removeSelected(int position) {
         if (selected != null) {
             if (selected.contains(position)) {
                 selected.remove(selected.indexOf(position));
@@ -134,11 +133,11 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.ViewHo
         }
     }
 
-    public void setClickListener(GameItemClickListener listener) {
+    void setClickListener(GameItemClickListener listener) {
         clickListener = listener;
     }
 
-    public interface GameItemClickListener {
+    interface GameItemClickListener {
         void onItemClick(int position, View view);
 
         boolean onItemLongClick(int position, View view);

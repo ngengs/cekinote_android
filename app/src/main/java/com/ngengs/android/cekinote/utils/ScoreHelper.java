@@ -1,6 +1,6 @@
 package com.ngengs.android.cekinote.utils;
 
-import com.ngengs.android.cekinote.model.Score;
+import com.ngengs.android.cekinote.data.model.Score;
 
 import java.util.ArrayList;
 import java.util.List;

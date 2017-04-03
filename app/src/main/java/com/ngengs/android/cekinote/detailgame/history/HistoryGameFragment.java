@@ -1,4 +1,4 @@
-package com.ngengs.android.cekinote.fragment;
+package com.ngengs.android.cekinote.detailgame.history;
 
 
 import android.os.Bundle;
@@ -11,8 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ngengs.android.cekinote.R;
-import com.ngengs.android.cekinote.adapter.GameHistoryAdapter;
-import com.ngengs.android.cekinote.model.Score;
+import com.ngengs.android.cekinote.data.model.Score;
 import com.ngengs.android.cekinote.utils.ScoreHelper;
 
 import java.util.ArrayList;
@@ -100,18 +99,6 @@ public class HistoryGameFragment extends Fragment {
         }
     }
 
-    @SuppressWarnings({"unchecked", "ConstantConditions"})
-    private void generateFromArguments(Bundle argument){
-        playerName1 = argument.getString(ARG_PARAM1);
-        playerName2 = argument.getString(ARG_PARAM2);
-        playerName3 = argument.getString(ARG_PARAM3);
-        playerName4 = argument.getString(ARG_PARAM4);
-        scorePlayer1.addAll((List) argument.getSerializable(ARG_PARAM5));
-        scorePlayer2.addAll((List) argument.getSerializable(ARG_PARAM6));
-        scorePlayer3.addAll((List) argument.getSerializable(ARG_PARAM7));
-        scorePlayer4.addAll((List) argument.getSerializable(ARG_PARAM8));
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -137,6 +124,18 @@ public class HistoryGameFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @SuppressWarnings({"unchecked", "ConstantConditions"})
+    private void generateFromArguments(Bundle argument) {
+        playerName1 = argument.getString(ARG_PARAM1);
+        playerName2 = argument.getString(ARG_PARAM2);
+        playerName3 = argument.getString(ARG_PARAM3);
+        playerName4 = argument.getString(ARG_PARAM4);
+        scorePlayer1.addAll((List) argument.getSerializable(ARG_PARAM5));
+        scorePlayer2.addAll((List) argument.getSerializable(ARG_PARAM6));
+        scorePlayer3.addAll((List) argument.getSerializable(ARG_PARAM7));
+        scorePlayer4.addAll((List) argument.getSerializable(ARG_PARAM8));
     }
 
     public void updateScore(Score score1, Score score2, Score score3, Score score4) {

@@ -1,11 +1,11 @@
-package com.ngengs.android.cekinote.model;
+package com.ngengs.android.cekinote.data.model;
 
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.NotNull;
 
 import java.util.Date;
-import org.greenrobot.greendao.annotation.Generated;
 
 /**
  * Created by ngengs on 12/15/2016.

@@ -1,17 +1,16 @@
-package com.ngengs.android.cekinote.model;
+package com.ngengs.android.cekinote.data.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.NotNull;
 import org.greenrobot.greendao.annotation.ToOne;
 
 import java.util.Date;
-
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.DaoException;
 
 /**
  * Created by ngengs on 12/15/2016.
@@ -21,47 +20,53 @@ import org.greenrobot.greendao.DaoException;
 @Entity
 public class Game implements Parcelable{
 
+    public static final Creator<Game> CREATOR = new Creator<Game>() {
+        @Override
+        public Game createFromParcel(Parcel in) {
+            return new Game(in);
+        }
+
+        @Override
+        public Game[] newArray(int size) {
+            return new Game[size];
+        }
+    };
     @Id
     private String id;
-    
     @NotNull
     private Date dateStart;
-
     private Date dateFinish;
-
     private String location;
-
     @NotNull
     private String idPlayer1;
-
     @NotNull
     private String idPlayer2;
-
     @NotNull
     private String idPlayer3;
-
     @NotNull
     private String idPlayer4;
-
     @ToOne(joinProperty = "idPlayer1")
     private Player player1;
-
     @ToOne(joinProperty = "idPlayer2")
     private Player player2;
-
     @ToOne(joinProperty = "idPlayer3")
     private Player player3;
-
     @ToOne(joinProperty = "idPlayer4")
     private Player player4;
-
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
-
     /** Used for active entity operations. */
     @Generated(hash = 359416843)
     private transient GameDao myDao;
+    @Generated(hash = 364892904)
+    private transient String player1__resolvedKey;
+    @Generated(hash = 221448252)
+    private transient String player2__resolvedKey;
+    @Generated(hash = 36569132)
+    private transient String player3__resolvedKey;
+    @Generated(hash = 1287327876)
+    private transient String player4__resolvedKey;
 
     @Generated(hash = 788313244)
     public Game(String id, @NotNull Date dateStart, Date dateFinish,
@@ -89,18 +94,6 @@ public class Game implements Parcelable{
         idPlayer3 = in.readString();
         idPlayer4 = in.readString();
     }
-
-    public static final Creator<Game> CREATOR = new Creator<Game>() {
-        @Override
-        public Game createFromParcel(Parcel in) {
-            return new Game(in);
-        }
-
-        @Override
-        public Game[] newArray(int size) {
-            return new Game[size];
-        }
-    };
 
     public String getId() {
         return this.id;
@@ -166,9 +159,6 @@ public class Game implements Parcelable{
         this.idPlayer4 = idPlayer4;
     }
 
-    @Generated(hash = 364892904)
-    private transient String player1__resolvedKey;
-
     /** To-one relationship, resolved on first access. */
     @Generated(hash = 1890027380)
     public Player getPlayer1() {
@@ -201,9 +191,6 @@ public class Game implements Parcelable{
             player1__resolvedKey = idPlayer1;
         }
     }
-
-    @Generated(hash = 221448252)
-    private transient String player2__resolvedKey;
 
     /** To-one relationship, resolved on first access. */
     @Generated(hash = 2003156188)
@@ -238,9 +225,6 @@ public class Game implements Parcelable{
         }
     }
 
-    @Generated(hash = 36569132)
-    private transient String player3__resolvedKey;
-
     /** To-one relationship, resolved on first access. */
     @Generated(hash = 522720963)
     public Player getPlayer3() {
@@ -273,9 +257,6 @@ public class Game implements Parcelable{
             player3__resolvedKey = idPlayer3;
         }
     }
-
-    @Generated(hash = 1287327876)
-    private transient String player4__resolvedKey;
 
     /** To-one relationship, resolved on first access. */
     @Generated(hash = 1366312990)

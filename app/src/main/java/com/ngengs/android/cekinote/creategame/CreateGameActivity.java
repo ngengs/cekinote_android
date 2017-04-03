@@ -1,4 +1,4 @@
-package com.ngengs.android.cekinote;
+package com.ngengs.android.cekinote.creategame;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,12 +14,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.ngengs.android.cekinote.globals.Tag;
-import com.ngengs.android.cekinote.model.DaoSession;
-import com.ngengs.android.cekinote.model.Game;
-import com.ngengs.android.cekinote.model.GameDao;
-import com.ngengs.android.cekinote.model.Player;
-import com.ngengs.android.cekinote.model.PlayerDao;
+import com.ngengs.android.cekinote.App;
+import com.ngengs.android.cekinote.R;
+import com.ngengs.android.cekinote.data.Tag;
+import com.ngengs.android.cekinote.data.model.DaoSession;
+import com.ngengs.android.cekinote.data.model.Game;
+import com.ngengs.android.cekinote.data.model.GameDao;
+import com.ngengs.android.cekinote.data.model.Player;
+import com.ngengs.android.cekinote.data.model.PlayerDao;
+import com.ngengs.android.cekinote.detailgame.DetailGameActivity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -79,6 +82,22 @@ public class CreateGameActivity extends AppCompatActivity {
                 gameNumber = gameDao.queryBuilder().orderDesc(GameDao.Properties.DateStart).list().size() + 1;
             }
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putSerializable(Tag.PLAYER_DATA, new ArrayList<>(playerData));
+        outState.putString(Tag.PLAYER_DATA1, idPlayer1);
+        outState.putString(Tag.PLAYER_DATA2, idPlayer2);
+        outState.putString(Tag.PLAYER_DATA3, idPlayer3);
+        outState.putString(Tag.PLAYER_DATA4, idPlayer4);
+        outState.putString(Tag.PLAYER_NAME1, player1.getText().toString());
+        outState.putString(Tag.PLAYER_NAME2, player2.getText().toString());
+        outState.putString(Tag.PLAYER_NAME3, player3.getText().toString());
+        outState.putString(Tag.PLAYER_NAME4, player4.getText().toString());
+        outState.putString(Tag.GAME_LOCATION, gameLocation.getText().toString());
+        outState.putInt(Tag.GAME_NUMBER, gameNumber);
+        super.onSaveInstanceState(outState);
     }
 
     @SuppressWarnings("unchecked")
@@ -243,21 +262,5 @@ public class CreateGameActivity extends AppCompatActivity {
                 idPlayer4 = idPlayer;
                 break;
         }
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        outState.putSerializable(Tag.PLAYER_DATA, new ArrayList<>(playerData));
-        outState.putString(Tag.PLAYER_DATA1, idPlayer1);
-        outState.putString(Tag.PLAYER_DATA2, idPlayer2);
-        outState.putString(Tag.PLAYER_DATA3, idPlayer3);
-        outState.putString(Tag.PLAYER_DATA4, idPlayer4);
-        outState.putString(Tag.PLAYER_NAME1, player1.getText().toString());
-        outState.putString(Tag.PLAYER_NAME2, player2.getText().toString());
-        outState.putString(Tag.PLAYER_NAME3, player3.getText().toString());
-        outState.putString(Tag.PLAYER_NAME4, player4.getText().toString());
-        outState.putString(Tag.GAME_LOCATION, gameLocation.getText().toString());
-        outState.putInt(Tag.GAME_NUMBER, gameNumber);
-        super.onSaveInstanceState(outState);
     }
 }
