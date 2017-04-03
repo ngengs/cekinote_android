@@ -66,14 +66,15 @@ public class MainActivity extends AppCompatActivity
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
-        if (actionBar != null) actionBar.setTitle(R.string.page_title_list_game);
         applicationVersion = ButterKnife.findById(navigationView.getHeaderView(0), R.id.app_version);
         applicationVersion.setText(getVersion());
-        manipulateHeaderColor(ResourceHelper.getColor(this, R.color.colorPrimary), ResourceHelper.getColor(this, R.color.colorPrimaryDark));
         App app = (App) getApplication();
 
         DaoSession session = app.getDaoSession();
         gameDao = session.getGameDao();
+
+        gameData = new ArrayList<>();
+        selectedGame = new ArrayList<>();
 
         adapter = new GameListAdapter(this, null);
         adapter.setClickListener(new GameListAdapter.GameItemClickListener() {
@@ -96,8 +97,6 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         });
-        gameData = new ArrayList<>();
-        selectedGame = new ArrayList<>();
         if (savedInstanceState != null) {
             generateFromSavedInstanceState(savedInstanceState);
         } else {
@@ -113,6 +112,8 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+        changeHeaderTitle();
+        changeHeaderColor();
         navigationView.setNavigationItemSelectedListener(this);
     }
 
@@ -134,7 +135,7 @@ public class MainActivity extends AppCompatActivity
                 for (int i : selectedGame) {
                     adapter.addSelected(i);
                 }
-                changeSelectedHeaderTitle();
+                changeHeaderTitle();
                 changeHeaderLook(true);
                 invalidateOptionsMenu();
             }
@@ -150,7 +151,7 @@ public class MainActivity extends AppCompatActivity
             adapter.addSelected(position);
             invalidateOptionsMenu();
         }
-        changeSelectedHeaderTitle();
+        changeHeaderTitle();
         changeHeaderLook();
     }
 
@@ -178,7 +179,7 @@ public class MainActivity extends AppCompatActivity
                 adapter.removeSelected(position);
             }
             selectedGame.clear();
-            changeSelectedHeaderTitle();
+            changeHeaderTitle();
             changeHeaderLook();
         } else {
             super.onBackPressed();
@@ -216,7 +217,7 @@ public class MainActivity extends AppCompatActivity
             }
             gameDao.updateInTx(tempGame);
             selectedGame.clear();
-            changeSelectedHeaderTitle();
+            changeHeaderTitle();
             changeHeaderLook();
 
             return true;
@@ -282,7 +283,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void changeSelectedHeaderTitle() {
+    private void changeHeaderTitle() {
         if (!selectedGame.isEmpty())
             actionBar.setTitle(String.format(getString(R.string.page_title_list_game_selected), selectedGame.size()));
         else actionBar.setTitle(R.string.page_title_list_game);
@@ -294,16 +295,25 @@ public class MainActivity extends AppCompatActivity
 
     private void changeHeaderLook(boolean forceChange) {
         if (!selectedGame.isEmpty() && (selectedGame.size() == 1 || forceChange)) {
-            manipulateHeaderColor(ResourceHelper.getColor(this, R.color.colorAccent), ResourceHelper.getColor(this, R.color.colorAccentDark));
             fab.hide();
         } else if (selectedGame.isEmpty()) {
-            manipulateHeaderColor(ResourceHelper.getColor(this, R.color.colorPrimary), ResourceHelper.getColor(this, R.color.colorPrimaryDark));
             invalidateOptionsMenu();
             fab.show();
         }
+        changeHeaderColor();
     }
 
-    private void manipulateHeaderColor(int colorToolbar, int colorStatusBar) {
+    private void changeHeaderColor() {
+        int colorToolbar;
+        int colorStatusBar;
+        if(selectedGame.isEmpty()) {
+            colorToolbar = ResourceHelper.getColor(this, R.color.colorPrimary);
+            colorStatusBar = ResourceHelper.getColor(this, R.color.colorPrimaryDark);
+        } else {
+            colorToolbar = ResourceHelper.getColor(this, R.color.colorAccent);
+            colorStatusBar = ResourceHelper.getColor(this, R.color.colorAccentDark);
+        }
+
         if (Build.VERSION.SDK_INT >= 21 && colorStatusBar != 0) {
             getWindow().setStatusBarColor(colorStatusBar);
         }
