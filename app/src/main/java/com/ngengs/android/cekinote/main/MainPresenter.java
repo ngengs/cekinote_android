@@ -24,17 +24,17 @@ class MainPresenter implements MainContract.Presenter {
     private List<Game> gameData;
     private List<Integer> selectedGame;
 
-    MainPresenter(@NonNull MainContract.View mainView, @NonNull GameDao gameDao) {
-        mView = mainView;
-        gameData = new ArrayList<>();
-        selectedGame = new ArrayList<>();
+    MainPresenter(@NonNull MainContract.View mView, @NonNull GameDao gameDao) {
+        this.mView = mView;
         this.gameDao = gameDao;
-        mView.setPresenter(this);
         start();
     }
 
     @Override
     public void start() {
+        gameData = new ArrayList<>();
+        selectedGame = new ArrayList<>();
+        mView.setPresenter(this);
         mView.changeHeaderTitle();
         mView.changeHeaderColor();
     }

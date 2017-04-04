@@ -31,14 +31,13 @@ class CreateGamePresenter implements CreateGameContract.Presenter {
         this.mView = mView;
         this.gameDao = gameDao;
         this.playerDao = playerDao;
-        playerData = new ArrayList<>();
-        mView.setPresenter(this);
         start();
     }
 
     @Override
     public void start() {
-
+        playerData = new ArrayList<>();
+        mView.setPresenter(this);
     }
 
     @Override
