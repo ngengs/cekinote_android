@@ -45,6 +45,7 @@
     <string name="text_number_game_default" translatable="false">#0</string>
     <string name="text_number_game_format" translatable="false">#%1$d</string>
     <string name="text_location_game_format" translatable="false">at %1$s</string>
+    <string name="error_player_name_exist">Can`t create player with name %1$s, player with that name is already exist.</string>
 
     <string name="menu_list_game">@string/page_title_list_game</string>
     <string name="menu_other">Other</string>

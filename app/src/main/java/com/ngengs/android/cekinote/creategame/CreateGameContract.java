@@ -13,6 +13,8 @@ import java.util.List;
 interface CreateGameContract {
     interface View extends BaseView<Presenter> {
         void applyPlayerName(Integer position, String name);
+
+        void addPlayerError(String name);
     }
 
     interface Presenter extends BasePresenter {

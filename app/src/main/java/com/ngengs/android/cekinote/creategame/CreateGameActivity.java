@@ -170,7 +170,7 @@ public class CreateGameActivity extends AppCompatActivity implements CreateGameC
                 .show();
     }
 
-    private void createNewPlayer(@NonNull final int forPlayer) {
+    private void createNewPlayer(final int forPlayer) {
         new MaterialDialog.Builder(this)
                 .title(String.format(getString(R.string.title_create_player), forPlayer))
                 .inputType(InputType.TYPE_CLASS_TEXT)
@@ -206,6 +206,11 @@ public class CreateGameActivity extends AppCompatActivity implements CreateGameC
                 player4.setText(text);
                 break;
         }
+    }
+
+    @Override
+    public void addPlayerError(String name) {
+        Snackbar.make(createGame, getString(R.string.error_player_name_exist, name), Snackbar.LENGTH_LONG).show();
     }
 
 }

@@ -74,10 +74,15 @@ class CreateGamePresenter implements CreateGameContract.Presenter {
 
     @Override
     public String addPlayer(@NonNull String name) {
-        Player player = new Player(UUID.randomUUID().toString(), name, new Date(), true);
-        playerDao.insert(player);
-        updatePlayerData();
-        return player.getId();
+        List<Player> tmpCheck = playerDao.queryBuilder().where(PlayerDao.Properties.Name.eq(name)).orderAsc(PlayerDao.Properties.Name).list();
+        if (tmpCheck.isEmpty()) {
+            Player player = new Player(UUID.randomUUID().toString(), name, new Date(), true);
+            playerDao.insert(player);
+            updatePlayerData();
+            return player.getId();
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -95,21 +100,25 @@ class CreateGamePresenter implements CreateGameContract.Presenter {
 
     @Override
     public void setPlayer(Integer position, String name, String id) {
-        switch (position) {
-            case 1:
-                idPlayer1 = id;
-                break;
-            case 2:
-                idPlayer2 = id;
-                break;
-            case 3:
-                idPlayer3 = id;
-                break;
-            case 4:
-                idPlayer4 = id;
-                break;
+        if (id != null) {
+            switch (position) {
+                case 1:
+                    idPlayer1 = id;
+                    break;
+                case 2:
+                    idPlayer2 = id;
+                    break;
+                case 3:
+                    idPlayer3 = id;
+                    break;
+                case 4:
+                    idPlayer4 = id;
+                    break;
+            }
+            mView.applyPlayerName(position, name);
+        } else {
+            mView.addPlayerError(name);
         }
-        mView.applyPlayerName(position, name);
     }
 
     @Override
