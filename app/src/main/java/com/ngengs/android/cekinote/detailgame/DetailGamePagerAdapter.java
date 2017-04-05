@@ -6,7 +6,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.view.ViewGroup;
 
 import com.ngengs.android.cekinote.data.model.Game;
-import com.ngengs.android.cekinote.data.model.Score;
 import com.ngengs.android.cekinote.detailgame.history.HistoryGameFragment;
 import com.ngengs.android.cekinote.detailgame.managescore.ManageScoreFragment;
 
@@ -22,15 +21,15 @@ class DetailGamePagerAdapter extends FragmentPagerAdapter {
     private ManageScoreFragment manageScoreFragment;
     private HistoryGameFragment historyGameFragment;
 
-    DetailGamePagerAdapter(FragmentManager fm, String[] title, Game gameData, List<Score> scorePlayer1, List<Score> scorePlayer2, List<Score> scorePlayer3, List<Score> scorePlayer4) {
+    DetailGamePagerAdapter(FragmentManager fm, String[] title, Game gameData, List<Integer> scorePlayer1, List<Integer> scorePlayer2, List<Integer> scorePlayer3, List<Integer> scorePlayer4) {
         super(fm);
         if (title.length == 2) {
             manageScoreFragment = ManageScoreFragment.newInstance(gameData.getPlayer1().getName(), gameData.getPlayer2().getName(), gameData.getPlayer3().getName(), gameData.getPlayer4().getName());
         }
-        List<Score> scorePlayer11 = new ArrayList<>();
-        List<Score> scorePlayer21 = new ArrayList<>();
-        List<Score> scorePlayer31 = new ArrayList<>();
-        List<Score> scorePlayer41 = new ArrayList<>();
+        List<Integer> scorePlayer11 = new ArrayList<>();
+        List<Integer> scorePlayer21 = new ArrayList<>();
+        List<Integer> scorePlayer31 = new ArrayList<>();
+        List<Integer> scorePlayer41 = new ArrayList<>();
         scorePlayer11.addAll(scorePlayer1);
         scorePlayer21.addAll(scorePlayer2);
         scorePlayer31.addAll(scorePlayer3);
@@ -82,7 +81,7 @@ class DetailGamePagerAdapter extends FragmentPagerAdapter {
         return tabTitles[position];
     }
 
-    void updateDataScore(Score scorePlayer1, Score scorePlayer2, Score scorePlayer3, Score scorePlayer4) {
+    void updateDataScore(int scorePlayer1, int scorePlayer2, int scorePlayer3, int scorePlayer4) {
         if (historyGameFragment != null) {
             historyGameFragment.updateScore(scorePlayer1, scorePlayer2, scorePlayer3, scorePlayer4);
         }

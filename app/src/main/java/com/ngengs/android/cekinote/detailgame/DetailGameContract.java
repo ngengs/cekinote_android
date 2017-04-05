@@ -3,7 +3,6 @@ package com.ngengs.android.cekinote.detailgame;
 import com.ngengs.android.cekinote.BasePresenter;
 import com.ngengs.android.cekinote.BaseView;
 import com.ngengs.android.cekinote.data.model.Game;
-import com.ngengs.android.cekinote.data.model.Score;
 
 import java.util.List;
 
@@ -19,13 +18,13 @@ interface DetailGameContract {
 
         void finishing();
 
-        void updateScore(Score score1, Score score2, Score score3, Score score4);
+        void updateScore(Integer score1, Integer score2, Integer score3, Integer score4);
     }
 
     interface Presenter extends BasePresenter {
         String gameId();
 
-        List<Score> scorePlayer(Integer playerNumber);
+        List<Integer> scorePlayer(Integer playerNumber);
 
         Game gameData();
 

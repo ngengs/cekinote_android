@@ -89,7 +89,7 @@ public class CreateGameActivity extends AppCompatActivity implements CreateGameC
     }
 
     @SuppressWarnings("unchecked")
-    private void generateFromSavedInstanceState(Bundle savedInstanceState) {
+    private void generateFromSavedInstanceState(@NonNull Bundle savedInstanceState) {
         Serializable temp = savedInstanceState.getSerializable(Tag.PLAYER_DATA);
         if (temp != null) mPresenter.setPlayerData((List) temp);
         mPresenter.setPlayerId(1, savedInstanceState.getString(Tag.PLAYER_DATA1));
@@ -152,7 +152,7 @@ public class CreateGameActivity extends AppCompatActivity implements CreateGameC
         }
     }
 
-    private void selectPlayerDialog(final int playerNumber, final List<String> playerName, final List<String> playerId) {
+    private void selectPlayerDialog(@NonNull final Integer playerNumber, @NonNull final List<String> playerName, @NonNull final List<String> playerId) {
         new MaterialDialog.Builder(this)
                 .title(String.format(getString(R.string.title_select_player), playerNumber))
                 .items(playerName)
@@ -170,7 +170,7 @@ public class CreateGameActivity extends AppCompatActivity implements CreateGameC
                 .show();
     }
 
-    private void createNewPlayer(final int forPlayer) {
+    private void createNewPlayer(@NonNull final int forPlayer) {
         new MaterialDialog.Builder(this)
                 .title(String.format(getString(R.string.title_create_player), forPlayer))
                 .inputType(InputType.TYPE_CLASS_TEXT)
@@ -190,7 +190,7 @@ public class CreateGameActivity extends AppCompatActivity implements CreateGameC
     }
 
     @Override
-    public void applyPlayerName(int position, String name) {
+    public void applyPlayerName(@NonNull Integer position, @NonNull String name) {
         final String text = String.format(getString(R.string.player_number_format), position, name);
         switch (position) {
             case 1:

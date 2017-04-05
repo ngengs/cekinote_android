@@ -17,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -165,7 +166,7 @@ public class MainActivity extends AppCompatActivity
         startActivityForResult(i, Tag.REQUEST_CREATE_GAME);
     }
 
-    private void openBrowser(String url) {
+    private void openBrowser(@NonNull String url) {
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(url));
         startActivity(i);
@@ -181,6 +182,7 @@ public class MainActivity extends AppCompatActivity
         } else if (requestCode == Tag.REQUEST_DETAIL_GAME) {
             if (resultCode == RESULT_OK) {
                 int position = data.getIntExtra(Tag.GAME_POSITION, -1);
+                Log.i("ASD", "onActivityResult: " + position);
                 if (position > -1) {
                     mPresenter.refreshGameDao(position);
                 }
@@ -212,7 +214,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void changeHeaderLook(boolean forceChange) {
+    public void changeHeaderLook(@NonNull Boolean forceChange) {
         if (!mPresenter.isSelectedEmpty() && (mPresenter.selectedSize() == 1 || forceChange)) {
             fab.hide();
         } else if (mPresenter.isSelectedEmpty()) {
@@ -250,22 +252,23 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void updateData(List<Game> data) {
+    public void updateData(@NonNull List<Game> data) {
         adapter.updateAllData(data);
     }
 
     @Override
-    public void updateData(Game data, int position) {
+    public void updateData(@NonNull Game data, @NonNull Integer position) {
+        Log.i("Update", "updateData: " + position);
         adapter.updateData(data, position);
     }
 
     @Override
-    public void addSelected(int position) {
+    public void addSelected(@NonNull Integer position) {
         adapter.addSelected(position);
     }
 
     @Override
-    public void removeSelected(int position) {
+    public void removeSelected(@NonNull Integer position) {
         adapter.removeSelected(position);
     }
 
@@ -275,16 +278,16 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void startDetailGame(int position) {
+    public void startDetailGame(@NonNull Integer position) {
         Intent intent = new Intent(this, DetailGameActivity.class);
         intent.putExtra(Tag.GAME_ID, mPresenter.getGameId(position));
         intent.putExtra(Tag.GAME_POSITION, position);
-        intent.putExtra(Tag.GAME_NUMBER, mPresenter.gameSize() - position);
+        intent.putExtra(Tag.GAME_NUMBER, mPresenter.gameSize());
         startActivityForResult(intent, Tag.REQUEST_DETAIL_GAME);
     }
 
     @Override
-    public void setPresenter(MainContract.Presenter presenter) {
+    public void setPresenter(@NonNull MainContract.Presenter presenter) {
         this.mPresenter = presenter;
     }
 }

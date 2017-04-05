@@ -1,6 +1,7 @@
 package com.ngengs.android.cekinote.main;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -89,38 +90,42 @@ class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.ViewHolder> {
     }
 
     @SuppressWarnings("unused")
-    void addData(Game data, int position) {
-        this.data.add(position, data);
-        notifyItemInserted(position);
+    void addData(@NonNull Game data, @NonNull Integer position) {
+        final int pos = Integer.parseInt(position.toString());
+        this.data.add(pos, data);
+        notifyItemInserted(pos);
     }
 
-    void updateAllData(List<Game> data) {
+    void updateAllData(@NonNull List<Game> data) {
         notifyItemRangeRemoved(0, this.data.size());
         this.data.clear();
         this.data.addAll(data);
         notifyItemInserted(0);
     }
 
-    void updateData(Game data, int position) {
-        this.data.remove(position);
-        this.data.add(position, data);
-        notifyItemChanged(position);
+    void updateData(@NonNull Game data, @NonNull Integer position) {
+        final int pos = Integer.parseInt(position.toString());
+        this.data.remove(pos);
+        this.data.add(pos, data);
+        notifyItemChanged(pos);
     }
 
-    void addSelected(int position) {
+    void addSelected(@NonNull Integer position) {
+        final int pos = Integer.parseInt(position.toString());
         if (selected != null) {
-            if (!selected.contains(position)) {
-                selected.add(position);
-                notifyItemChanged(position);
+            if (!selected.contains(pos)) {
+                selected.add(pos);
+                notifyItemChanged(pos);
             }
         }
     }
 
-    void removeSelected(int position) {
+    void removeSelected(@NonNull Integer position) {
+        final int pos = Integer.parseInt(position.toString());
         if (selected != null) {
-            if (selected.contains(position)) {
-                selected.remove(selected.indexOf(position));
-                notifyItemChanged(position);
+            if (selected.contains(pos)) {
+                selected.remove(selected.indexOf(pos));
+                notifyItemChanged(pos);
             }
         }
     }

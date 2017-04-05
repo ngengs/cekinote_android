@@ -169,7 +169,7 @@ public class ManageScoreFragment extends Fragment {
         }
     }
 
-    private void createModal(final int position, final String name) {
+    private void createModal(@NonNull final Integer position, @NonNull final String name) {
         new MaterialDialog.Builder(context)
                 .inputType(InputType.TYPE_CLASS_NUMBER + InputType.TYPE_NUMBER_FLAG_SIGNED)
                 .positiveColorRes(R.color.colorPrimary)
@@ -195,7 +195,7 @@ public class ManageScoreFragment extends Fragment {
         }
     }
 
-    private void scoreToText(int position, String scoreInString) {
+    private void scoreToText(@NonNull Integer position, @NonNull String scoreInString) {
         try {
             int scoreInNumber;
             if (scoreInString.equals(defaultScoreString)) scoreInNumber = defaultScoreInt;

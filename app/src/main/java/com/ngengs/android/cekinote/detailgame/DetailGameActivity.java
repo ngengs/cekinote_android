@@ -3,6 +3,7 @@ package com.ngengs.android.cekinote.detailgame;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
@@ -18,7 +19,6 @@ import com.ngengs.android.cekinote.App;
 import com.ngengs.android.cekinote.R;
 import com.ngengs.android.cekinote.data.Tag;
 import com.ngengs.android.cekinote.data.model.DaoSession;
-import com.ngengs.android.cekinote.data.model.Score;
 import com.ngengs.android.cekinote.utils.ResourceHelper;
 
 import butterknife.BindView;
@@ -50,13 +50,13 @@ public class DetailGameActivity extends AppCompatActivity implements DetailGameC
         ButterKnife.bind(this);
         setSupportActionBar(gameDetailToolbar);
         ActionBar actionBar = getSupportActionBar();
+
+        positionGame = getIntent().getIntExtra(Tag.GAME_POSITION, -1);
+        numberGame = getIntent().getIntExtra(Tag.GAME_NUMBER, -1);
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setTitle(String.format(getString(R.string.page_title_detail_game), numberGame));
         }
-
-        positionGame = getIntent().getIntExtra(Tag.GAME_POSITION, -1);
-        numberGame = getIntent().getIntExtra(Tag.GAME_NUMBER, -1);
 
         App app = (App) getApplication();
 
@@ -108,7 +108,7 @@ public class DetailGameActivity extends AppCompatActivity implements DetailGameC
         super.onBackPressed();
     }
 
-    public void addScore(int scorePlayer1, int scorePlayer2, int scorePlayer3, int scorePlayer4) {
+    public void addScore(@NonNull Integer scorePlayer1, @NonNull Integer scorePlayer2, @NonNull Integer scorePlayer3, @NonNull Integer scorePlayer4) {
         mPresenter.insertScore(scorePlayer1, scorePlayer2, scorePlayer3, scorePlayer4);
     }
 
@@ -164,7 +164,7 @@ public class DetailGameActivity extends AppCompatActivity implements DetailGameC
     }
 
     @Override
-    public void updateScore(Score score1, Score score2, Score score3, Score score4) {
+    public void updateScore(@NonNull Integer score1, @NonNull Integer score2, @NonNull Integer score3, @NonNull Integer score4) {
         detailGamePagerAdapter.updateDataScore(score1, score2, score3, score4);
     }
 }

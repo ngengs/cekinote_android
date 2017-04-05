@@ -14,7 +14,7 @@ import java.util.List;
 
 interface MainContract {
     interface View extends BaseView<Presenter> {
-        void changeHeaderLook(boolean forceChange);
+        void changeHeaderLook(Boolean forceChange);
 
         void changeHeaderTitle();
 
@@ -22,15 +22,15 @@ interface MainContract {
 
         void updateData(List<Game> data);
 
-        void updateData(Game data, int position);
+        void updateData(Game data, Integer position);
 
-        void addSelected(int position);
+        void addSelected(Integer position);
 
-        void removeSelected(int position);
+        void removeSelected(Integer position);
 
         void clearOptionMenu();
 
-        void startDetailGame(int position);
+        void startDetailGame(Integer position);
     }
 
     interface Presenter extends BasePresenter {
