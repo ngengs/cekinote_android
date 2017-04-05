@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,8 @@ import butterknife.Unbinder;
  * create an instance of this fragment.
  */
 public class ManageScoreFragment extends Fragment {
+    private static final String TAG = "ManageScoreFragment";
+
     private static final String ARG_PARAM1 = "PLAYER_NAME1";
     private static final String ARG_PARAM2 = "PLAYER_NAME2";
     private static final String ARG_PARAM3 = "PLAYER_NAME3";
@@ -220,7 +223,7 @@ public class ManageScoreFragment extends Fragment {
                     break;
             }
         } catch (NumberFormatException e) {
-            e.printStackTrace();
+            Log.e(TAG, "scoreToText: ", e);
         }
     }
 }

@@ -65,7 +65,7 @@ public class HistoryGameFragment extends Fragment {
 
 
     private Unbinder unbinder;
-    private GameHistoryAdapter historyAdapter;
+    private HistoryGameAdapter historyAdapter;
 
 
     public HistoryGameFragment() {
@@ -104,7 +104,7 @@ public class HistoryGameFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_history_game, container, false);
         unbinder = ButterKnife.bind(this, view);
-        historyAdapter = new GameHistoryAdapter(ScoreHelper.joinScore(scorePlayer1, scorePlayer2, scorePlayer3, scorePlayer4));
+        historyAdapter = new HistoryGameAdapter(ScoreHelper.joinScore(scorePlayer1, scorePlayer2, scorePlayer3, scorePlayer4));
         LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext());
         historyRecyclerView.setHasFixedSize(true);
         historyRecyclerView.setLayoutManager(layoutManager);

@@ -17,12 +17,12 @@ import java.util.List;
  * Created by ngengs on 12/20/2016.
  */
 
-class GameDetailPagerAdapter extends FragmentPagerAdapter {
+class DetailGamePagerAdapter extends FragmentPagerAdapter {
     private String[] tabTitles;
     private ManageScoreFragment manageScoreFragment;
     private HistoryGameFragment historyGameFragment;
 
-    GameDetailPagerAdapter(FragmentManager fm, String[] title, Game gameData, List<Score> scorePlayer1, List<Score> scorePlayer2, List<Score> scorePlayer3, List<Score> scorePlayer4) {
+    DetailGamePagerAdapter(FragmentManager fm, String[] title, Game gameData, List<Score> scorePlayer1, List<Score> scorePlayer2, List<Score> scorePlayer3, List<Score> scorePlayer4) {
         super(fm);
         if (title.length == 2) {
             manageScoreFragment = ManageScoreFragment.newInstance(gameData.getPlayer1().getName(), gameData.getPlayer2().getName(), gameData.getPlayer3().getName(), gameData.getPlayer4().getName());

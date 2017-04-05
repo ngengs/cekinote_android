@@ -18,10 +18,10 @@ import butterknife.ButterKnife;
  * Created by ngengs on 12/20/2016.
  */
 
-class GameHistoryAdapter extends RecyclerView.Adapter<GameHistoryAdapter.ViewHolder> {
+class HistoryGameAdapter extends RecyclerView.Adapter<HistoryGameAdapter.ViewHolder> {
     private List<int[]> scoreData;
 
-    GameHistoryAdapter(List<int[]> scoreData) {
+    HistoryGameAdapter(List<int[]> scoreData) {
         this.scoreData = new ArrayList<>();
         if (scoreData != null) {
             this.scoreData.addAll(scoreData);
@@ -29,15 +29,15 @@ class GameHistoryAdapter extends RecyclerView.Adapter<GameHistoryAdapter.ViewHol
     }
 
     @Override
-    public GameHistoryAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public HistoryGameAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.history_game_list_item, parent, false);
 
-        return new GameHistoryAdapter.ViewHolder(v);
+        return new HistoryGameAdapter.ViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(GameHistoryAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(HistoryGameAdapter.ViewHolder holder, int position) {
         int[] score = scoreData.get(position);
         holder.scoreGameHistoryNumber.setText(String.valueOf(position + 1));
         holder.scoreGameHistoryPlayer1.setText(String.valueOf(score[0]));
