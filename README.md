@@ -3,7 +3,37 @@
 
 This is application for note the game score of "Ceki", the card game I always played with my friends.
 
-### Libarry
+### Building
+To build this application prepare some file
+
+1. file-keys.jks (the name is up to you)
+   
+   To craete the file you can read at [here](https://developer.android.com/studio/publish/app-signing.html) or [here](http://stackoverflow.com/questions/3997748/how-can-i-create-a-keystore)
+   
+   This file location will be used as *KEY_STORE_LOCATION* inside the keystore.properties file
+   
+2. keystore.properties
+   
+   With value
+   
+   ````
+   RELEASE_KEY_PASSWORD=*KEY_PASSWORD*
+   RELEASE_KEY_ALIAS=*KEY_ALIAS*
+   RELEASE_STORE_PASSWORD=*KEY_STORE_PASSOWRD*
+   RELEASE_STORE_LOCATION=*KEY_STORE_LOCATION (ex: file-keys.jks)*
+   ````
+   
+And after all the prepared file is complete you can build with command
+````
+gradlew clean assembleRelease
+````
+to build release version, or
+````
+gradlew clean assembleBeta
+````
+to build beta version
+
+### Library
 This application use some library
 * Google Support Library
 * [Material Dialogs](https://github.com/afollestad/material-dialogs)
