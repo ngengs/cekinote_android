@@ -17,7 +17,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -182,7 +181,6 @@ public class MainActivity extends AppCompatActivity
         } else if (requestCode == Tag.REQUEST_DETAIL_GAME) {
             if (resultCode == RESULT_OK) {
                 int position = data.getIntExtra(Tag.GAME_POSITION, -1);
-                Log.i("ASD", "onActivityResult: " + position);
                 if (position > -1) {
                     mPresenter.refreshGameDao(position);
                 }
@@ -258,7 +256,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void updateData(@NonNull Game data, @NonNull Integer position) {
-        Log.i("Update", "updateData: " + position);
         adapter.updateData(data, position);
     }
 
