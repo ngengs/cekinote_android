@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity
     NavigationView navigationView;
     @BindView(R.id.game_list)
     RecyclerView gameRecyclerView;
+
     private GameListAdapter adapter;
     private TextView applicationVersion;
     private ActionBar actionBar;
