@@ -1,4 +1,4 @@
-package com.ngengs.android.cekinote.adapter;
+package com.ngengs.android.cekinote.detailgame.history;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,10 +18,10 @@ import butterknife.ButterKnife;
  * Created by ngengs on 12/20/2016.
  */
 
-public class GameHistoryAdapter extends RecyclerView.Adapter<GameHistoryAdapter.ViewHolder> {
+class HistoryGameAdapter extends RecyclerView.Adapter<HistoryGameAdapter.ViewHolder> {
     private List<int[]> scoreData;
 
-    public GameHistoryAdapter(List<int[]> scoreData) {
+    HistoryGameAdapter(List<int[]> scoreData) {
         this.scoreData = new ArrayList<>();
         if (scoreData != null) {
             this.scoreData.addAll(scoreData);
@@ -29,15 +29,15 @@ public class GameHistoryAdapter extends RecyclerView.Adapter<GameHistoryAdapter.
     }
 
     @Override
-    public GameHistoryAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public HistoryGameAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.history_game_list_item, parent, false);
 
-        return new GameHistoryAdapter.ViewHolder(v);
+        return new HistoryGameAdapter.ViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(GameHistoryAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(HistoryGameAdapter.ViewHolder holder, int position) {
         int[] score = scoreData.get(position);
         holder.scoreGameHistoryNumber.setText(String.valueOf(position + 1));
         holder.scoreGameHistoryPlayer1.setText(String.valueOf(score[0]));
@@ -51,7 +51,7 @@ public class GameHistoryAdapter extends RecyclerView.Adapter<GameHistoryAdapter.
         return scoreData.size();
     }
 
-    public void addScore(int[] data) {
+    void addScore(int[] data) {
         addScore(data, getItemCount());
     }
 

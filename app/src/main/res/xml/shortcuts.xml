@@ -3,16 +3,16 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
     <shortcut
-        android:shortcutId="compose"
         android:enabled="true"
         android:icon="@drawable/ic_shortcut_add"
-        android:shortcutShortLabel="@string/shortcut_create_game_label_short"
-        android:shortcutLongLabel="@string/shortcut_create_game_label_long"
         android:shortcutDisabledMessage="@string/shortcut_create_game_label_disable"
+        android:shortcutId="compose"
+        android:shortcutLongLabel="@string/shortcut_create_game_label_long"
+        android:shortcutShortLabel="@string/shortcut_create_game_label_short"
         tools:targetApi="25">
         <intent
             android:action="android.intent.action.VIEW"
-            android:targetPackage="com.ngengs.android.cekinote"
-            android:targetClass="com.ngengs.android.cekinote.CreateGameActivity" />
+            android:targetClass="com.ngengs.android.cekinote.creategame.CreateGameActivity"
+            android:targetPackage="com.ngengs.android.cekinote" />
     </shortcut>
 </shortcuts>

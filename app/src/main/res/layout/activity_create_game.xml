@@ -9,7 +9,7 @@
     android:descendantFocusability="beforeDescendants"
     android:focusableInTouchMode="true"
     android:orientation="vertical"
-    tools:context="com.ngengs.android.cekinote.CreateGameActivity">
+    tools:context="com.ngengs.android.cekinote.creategame.CreateGameActivity">
 
     <ScrollView
         android:layout_width="match_parent"

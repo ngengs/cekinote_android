@@ -1,4 +1,4 @@
-package com.ngengs.android.cekinote.fragment;
+package com.ngengs.android.cekinote.detailgame.managescore;
 
 
 import android.content.Context;
@@ -8,16 +8,16 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.ngengs.android.cekinote.DetailGameActivity;
 import com.ngengs.android.cekinote.R;
-import com.ngengs.android.cekinote.globals.Tag;
+import com.ngengs.android.cekinote.data.Tag;
+import com.ngengs.android.cekinote.detailgame.DetailGameActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,6 +30,8 @@ import butterknife.Unbinder;
  * create an instance of this fragment.
  */
 public class ManageScoreFragment extends Fragment {
+    private static final String TAG = "ManageScoreFragment";
+
     private static final String ARG_PARAM1 = "PLAYER_NAME1";
     private static final String ARG_PARAM2 = "PLAYER_NAME2";
     private static final String ARG_PARAM3 = "PLAYER_NAME3";
@@ -39,26 +41,18 @@ public class ManageScoreFragment extends Fragment {
     TextView nameManagePlayer1;
     @BindView(R.id.score_manage_score_player1)
     TextView scoreManagePlayer1;
-    @BindView(R.id.layout_manage_score_player1)
-    LinearLayout layoutManagePlayer1;
     @BindView(R.id.name_manage_score_player2)
     TextView nameManagePlayer2;
     @BindView(R.id.score_manage_score_player2)
     TextView scoreManagePlayer2;
-    @BindView(R.id.layout_manage_score_player2)
-    LinearLayout layoutManagePlayer2;
     @BindView(R.id.name_manage_score_player3)
     TextView nameManagePlayer3;
     @BindView(R.id.score_manage_score_player3)
     TextView scoreManagePlayer3;
-    @BindView(R.id.layout_manage_score_player3)
-    LinearLayout layoutManagePlayer3;
     @BindView(R.id.name_manage_score_player4)
     TextView nameManagePlayer4;
     @BindView(R.id.score_manage_score_player4)
     TextView scoreManagePlayer4;
-    @BindView(R.id.layout_manage_score_player4)
-    LinearLayout layoutManagePlayer4;
     @BindView(R.id.score_manage_add)
     FloatingActionButton scoreManageAdd;
     private String namePlayer1;
@@ -134,6 +128,15 @@ public class ManageScoreFragment extends Fragment {
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putInt(Tag.PLAYER_SCORE1, scorePlayer1);
+        outState.putInt(Tag.PLAYER_SCORE2, scorePlayer2);
+        outState.putInt(Tag.PLAYER_SCORE3, scorePlayer3);
+        outState.putInt(Tag.PLAYER_SCORE4, scorePlayer4);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
@@ -157,7 +160,7 @@ public class ManageScoreFragment extends Fragment {
         }
     }
 
-    private void createModal(final int position, final String name) {
+    private void createModal(@NonNull final Integer position, @NonNull final String name) {
         new MaterialDialog.Builder(context)
                 .inputType(InputType.TYPE_CLASS_NUMBER + InputType.TYPE_NUMBER_FLAG_SIGNED)
                 .positiveColorRes(R.color.colorPrimary)
@@ -183,7 +186,7 @@ public class ManageScoreFragment extends Fragment {
         }
     }
 
-    private void scoreToText(int position, String scoreInString) {
+    private void scoreToText(@NonNull Integer position, @NonNull String scoreInString) {
         try {
             int scoreInNumber;
             if (scoreInString.equals(defaultScoreString)) scoreInNumber = defaultScoreInt;
@@ -211,16 +214,7 @@ public class ManageScoreFragment extends Fragment {
                     break;
             }
         } catch (NumberFormatException e) {
-            e.printStackTrace();
+            Log.e(TAG, "scoreToText: ", e);
         }
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        outState.putInt(Tag.PLAYER_SCORE1, scorePlayer1);
-        outState.putInt(Tag.PLAYER_SCORE2, scorePlayer2);
-        outState.putInt(Tag.PLAYER_SCORE3, scorePlayer3);
-        outState.putInt(Tag.PLAYER_SCORE4, scorePlayer4);
-        super.onSaveInstanceState(outState);
     }
 }

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ngengs.android.cekinote.fragment.ManageScoreFragment">
+    tools:context="com.ngengs.android.cekinote.detailgame.managescore.ManageScoreFragment">
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -40,8 +40,8 @@
                         android:id="@+id/layout_manage_score_player1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
                         android:foreground="?attr/selectableItemBackground"
+                        android:orientation="horizontal"
                         android:padding="@dimen/activity_vertical_margin"
                         android:weightSum="2">
 
@@ -71,8 +71,8 @@
                         android:id="@+id/layout_manage_score_player2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
                         android:foreground="?attr/selectableItemBackground"
+                        android:orientation="horizontal"
                         android:padding="@dimen/activity_vertical_margin"
                         android:weightSum="2">
 
@@ -102,8 +102,8 @@
                         android:id="@+id/layout_manage_score_player3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
                         android:foreground="?attr/selectableItemBackground"
+                        android:orientation="horizontal"
                         android:padding="@dimen/activity_vertical_margin"
                         android:weightSum="2">
 
@@ -133,8 +133,8 @@
                         android:id="@+id/layout_manage_score_player4"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
                         android:foreground="?attr/selectableItemBackground"
+                        android:orientation="horizontal"
                         android:padding="@dimen/activity_vertical_margin"
                         android:weightSum="2">
 

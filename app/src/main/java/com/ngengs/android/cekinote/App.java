@@ -2,8 +2,8 @@ package com.ngengs.android.cekinote;
 
 import android.app.Application;
 
-import com.ngengs.android.cekinote.model.DaoMaster;
-import com.ngengs.android.cekinote.model.DaoSession;
+import com.ngengs.android.cekinote.data.model.DaoMaster;
+import com.ngengs.android.cekinote.data.model.DaoSession;
 
 import org.greenrobot.greendao.database.Database;
 
@@ -23,14 +23,16 @@ public class App extends Application {
     public App() {
     }
 
+    @Override
     public void onCreate() {
+        super.onCreate();
         DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, ENCRYPTED ? "ceki-note-db-encrypted" : "ceki-note-db");
         Database db = ENCRYPTED ? helper.getEncryptedWritableDb("superSecret") : helper.getWritableDb();
         daoSession = new DaoMaster(db).newSession();
     }
 
     public DaoSession getDaoSession() {
-        onCreate();
+        if (daoSession == null) onCreate();
         return daoSession;
     }
 }

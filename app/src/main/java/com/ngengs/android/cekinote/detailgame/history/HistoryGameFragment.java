@@ -1,7 +1,8 @@
-package com.ngengs.android.cekinote.fragment;
+package com.ngengs.android.cekinote.detailgame.history;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,8 +12,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ngengs.android.cekinote.R;
-import com.ngengs.android.cekinote.adapter.GameHistoryAdapter;
-import com.ngengs.android.cekinote.model.Score;
 import com.ngengs.android.cekinote.utils.ScoreHelper;
 
 import java.util.ArrayList;
@@ -59,21 +58,21 @@ public class HistoryGameFragment extends Fragment {
     private String playerName2;
     private String playerName3;
     private String playerName4;
-    private List<Score> scorePlayer1;
-    private List<Score> scorePlayer2;
-    private List<Score> scorePlayer3;
-    private List<Score> scorePlayer4;
+    private List<Integer> scorePlayer1;
+    private List<Integer> scorePlayer2;
+    private List<Integer> scorePlayer3;
+    private List<Integer> scorePlayer4;
 
 
     private Unbinder unbinder;
-    private GameHistoryAdapter historyAdapter;
+    private HistoryGameAdapter historyAdapter;
 
 
     public HistoryGameFragment() {
         // Required empty public constructor
     }
 
-    public static HistoryGameFragment newInstance(String name1, String name2, String name3, String name4, List<Score> score1, List<Score> score2, List<Score> score3, List<Score> score4) {
+    public static HistoryGameFragment newInstance(String name1, String name2, String name3, String name4, List<Integer> score1, List<Integer> score2, List<Integer> score3, List<Integer> score4) {
         HistoryGameFragment fragment = new HistoryGameFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, name1);
@@ -100,24 +99,12 @@ public class HistoryGameFragment extends Fragment {
         }
     }
 
-    @SuppressWarnings({"unchecked", "ConstantConditions"})
-    private void generateFromArguments(Bundle argument){
-        playerName1 = argument.getString(ARG_PARAM1);
-        playerName2 = argument.getString(ARG_PARAM2);
-        playerName3 = argument.getString(ARG_PARAM3);
-        playerName4 = argument.getString(ARG_PARAM4);
-        scorePlayer1.addAll((List) argument.getSerializable(ARG_PARAM5));
-        scorePlayer2.addAll((List) argument.getSerializable(ARG_PARAM6));
-        scorePlayer3.addAll((List) argument.getSerializable(ARG_PARAM7));
-        scorePlayer4.addAll((List) argument.getSerializable(ARG_PARAM8));
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_history_game, container, false);
         unbinder = ButterKnife.bind(this, view);
-        historyAdapter = new GameHistoryAdapter(ScoreHelper.joinScore(scorePlayer1, scorePlayer2, scorePlayer3, scorePlayer4));
+        historyAdapter = new HistoryGameAdapter(ScoreHelper.joinScore(scorePlayer1, scorePlayer2, scorePlayer3, scorePlayer4));
         LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext());
         historyRecyclerView.setHasFixedSize(true);
         historyRecyclerView.setLayoutManager(layoutManager);
@@ -139,19 +126,31 @@ public class HistoryGameFragment extends Fragment {
         unbinder.unbind();
     }
 
-    public void updateScore(Score score1, Score score2, Score score3, Score score4) {
+    @SuppressWarnings({"unchecked", "ConstantConditions"})
+    private void generateFromArguments(@NonNull Bundle argument) {
+        playerName1 = argument.getString(ARG_PARAM1);
+        playerName2 = argument.getString(ARG_PARAM2);
+        playerName3 = argument.getString(ARG_PARAM3);
+        playerName4 = argument.getString(ARG_PARAM4);
+        scorePlayer1.addAll((List) argument.getSerializable(ARG_PARAM5));
+        scorePlayer2.addAll((List) argument.getSerializable(ARG_PARAM6));
+        scorePlayer3.addAll((List) argument.getSerializable(ARG_PARAM7));
+        scorePlayer4.addAll((List) argument.getSerializable(ARG_PARAM8));
+    }
+
+    public void updateScore(@NonNull Integer score1, @NonNull Integer score2, @NonNull Integer score3, @NonNull Integer score4) {
         if (scorePlayer1 != null && scorePlayer2 != null && scorePlayer3 != null && scorePlayer4 != null) {
             this.scorePlayer1.add(score1);
             this.scorePlayer2.add(score2);
             this.scorePlayer3.add(score3);
             this.scorePlayer4.add(score4);
-            int[] score = new int[]{score1.getScore(), score2.getScore(), score3.getScore(), score4.getScore()};
+            int[] score = new int[]{score1, score2, score3, score4};
             historyAdapter.addScore(score);
             updateTotalScore(score);
         }
     }
 
-    private void updateTotalScore(int[] score) {
+    private void updateTotalScore(@NonNull int[] score) {
         if (score.length == 4) {
             int oldScore1 = (!scoreGameHistoryPlayer1.getText().toString().equals("")) ? Integer.parseInt(scoreGameHistoryPlayer1.getText().toString()) : 0;
             int oldScore2 = (!scoreGameHistoryPlayer2.getText().toString().equals("")) ? Integer.parseInt(scoreGameHistoryPlayer2.getText().toString()) : 0;

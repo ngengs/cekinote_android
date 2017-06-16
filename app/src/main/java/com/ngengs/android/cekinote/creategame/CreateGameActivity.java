@@ -1,4 +1,4 @@
-package com.ngengs.android.cekinote;
+package com.ngengs.android.cekinote.creategame;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,24 +14,21 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.ngengs.android.cekinote.globals.Tag;
-import com.ngengs.android.cekinote.model.DaoSession;
-import com.ngengs.android.cekinote.model.Game;
-import com.ngengs.android.cekinote.model.GameDao;
-import com.ngengs.android.cekinote.model.Player;
-import com.ngengs.android.cekinote.model.PlayerDao;
+import com.ngengs.android.cekinote.App;
+import com.ngengs.android.cekinote.R;
+import com.ngengs.android.cekinote.data.Tag;
+import com.ngengs.android.cekinote.data.model.DaoSession;
+import com.ngengs.android.cekinote.detailgame.DetailGameActivity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class CreateGameActivity extends AppCompatActivity {
+public class CreateGameActivity extends AppCompatActivity implements CreateGameContract.View {
 
     @BindView(R.id.player1)
     TextView player1;
@@ -46,13 +43,9 @@ public class CreateGameActivity extends AppCompatActivity {
     @BindView(R.id.createGame)
     FloatingActionButton createGame;
 
-
-    private PlayerDao playerDao;
-    private GameDao gameDao;
-    private List<Player> playerData;
-
-    private String idPlayer1, idPlayer2, idPlayer3, idPlayer4;
     private int gameNumber;
+
+    private CreateGameContract.Presenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,39 +60,48 @@ public class CreateGameActivity extends AppCompatActivity {
         App app = (App) getApplication();
 
         DaoSession session = app.getDaoSession();
-        playerDao = session.getPlayerDao();
-        gameDao = session.getGameDao();
-        playerData = new ArrayList<>();
+        mPresenter = new CreateGamePresenter(this, session.getPlayerDao(), session.getGameDao());
         if (savedInstanceState != null) {
             generateFromSavedInstanceState(savedInstanceState);
         } else {
-            updateDataPlayer();
+            mPresenter.updatePlayerData();
             gameNumber = getIntent().getIntExtra(Tag.GAME_NUMBER, -1);
             if (gameNumber == -1) {
-                gameNumber = gameDao.queryBuilder().orderDesc(GameDao.Properties.DateStart).list().size() + 1;
+                gameNumber = mPresenter.gameSize() + 1;
             }
         }
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putSerializable(Tag.PLAYER_DATA, new ArrayList<>(mPresenter.getPlayer()));
+        outState.putString(Tag.PLAYER_DATA1, mPresenter.getPlayerId(1));
+        outState.putString(Tag.PLAYER_DATA2, mPresenter.getPlayerId(2));
+        outState.putString(Tag.PLAYER_DATA3, mPresenter.getPlayerId(3));
+        outState.putString(Tag.PLAYER_DATA4, mPresenter.getPlayerId(4));
+        outState.putString(Tag.PLAYER_NAME1, player1.getText().toString());
+        outState.putString(Tag.PLAYER_NAME2, player2.getText().toString());
+        outState.putString(Tag.PLAYER_NAME3, player3.getText().toString());
+        outState.putString(Tag.PLAYER_NAME4, player4.getText().toString());
+        outState.putString(Tag.GAME_LOCATION, gameLocation.getText().toString());
+        outState.putInt(Tag.GAME_NUMBER, gameNumber);
+        super.onSaveInstanceState(outState);
+    }
+
     @SuppressWarnings("unchecked")
-    private void generateFromSavedInstanceState(Bundle savedInstanceState){
+    private void generateFromSavedInstanceState(@NonNull Bundle savedInstanceState) {
         Serializable temp = savedInstanceState.getSerializable(Tag.PLAYER_DATA);
-        if (temp != null) playerData.addAll((List) temp);
-        idPlayer1 = savedInstanceState.getString(Tag.PLAYER_DATA1);
-        idPlayer2 = savedInstanceState.getString(Tag.PLAYER_DATA2);
-        idPlayer3 = savedInstanceState.getString(Tag.PLAYER_DATA3);
-        idPlayer4 = savedInstanceState.getString(Tag.PLAYER_DATA4);
+        if (temp != null) mPresenter.setPlayerData((List) temp);
+        mPresenter.setPlayerId(1, savedInstanceState.getString(Tag.PLAYER_DATA1));
+        mPresenter.setPlayerId(2, savedInstanceState.getString(Tag.PLAYER_DATA2));
+        mPresenter.setPlayerId(3, savedInstanceState.getString(Tag.PLAYER_DATA3));
+        mPresenter.setPlayerId(4, savedInstanceState.getString(Tag.PLAYER_DATA4));
         player1.setText(savedInstanceState.getString(Tag.PLAYER_NAME1));
         player2.setText(savedInstanceState.getString(Tag.PLAYER_NAME2));
         player3.setText(savedInstanceState.getString(Tag.PLAYER_NAME3));
         player4.setText(savedInstanceState.getString(Tag.PLAYER_NAME4));
         gameLocation.setText(savedInstanceState.getString(Tag.GAME_LOCATION));
         gameNumber = savedInstanceState.getInt(Tag.GAME_NUMBER);
-    }
-
-    private void updateDataPlayer() {
-        playerData.clear();
-        playerData.addAll(playerDao.queryBuilder().orderAsc(PlayerDao.Properties.Name).list());
     }
 
     @Override
@@ -116,7 +118,7 @@ public class CreateGameActivity extends AppCompatActivity {
 
     @OnClick({R.id.player1, R.id.player2, R.id.player3, R.id.player4})
     protected void clickPlayer(View view) {
-        final List<List<String>> player = generatePlayer();
+        final List<List<String>> player = mPresenter.generatePlayer(getString(R.string.menu_add_player));
         switch (view.getId()) {
             case R.id.player1:
                 selectPlayerDialog(1, player.get(0), player.get(1));
@@ -135,15 +137,11 @@ public class CreateGameActivity extends AppCompatActivity {
 
     @OnClick(R.id.createGame)
     protected void createTheGame() {
-        if (idPlayer1 != null && idPlayer2 != null && idPlayer3 != null && idPlayer4 != null) {
-            String location = null;
-            if (!gameLocation.getText().toString().equals(""))
-                location = gameLocation.getText().toString();
-            Game game = new Game(UUID.randomUUID().toString(), new Date(), null, location, idPlayer1, idPlayer2, idPlayer3, idPlayer4);
-            gameDao.insert(game);
+        if (mPresenter.isPlayerComplete()) {
+            String gameId = mPresenter.insertGame(gameLocation.getText().toString());
 
             Intent intent = new Intent(this, DetailGameActivity.class);
-            intent.putExtra(Tag.GAME_ID, game.getId());
+            intent.putExtra(Tag.GAME_ID, gameId);
             intent.putExtra(Tag.GAME_POSITION, 0);
             intent.putExtra(Tag.GAME_NUMBER, gameNumber);
             setResult(RESULT_OK);
@@ -154,37 +152,7 @@ public class CreateGameActivity extends AppCompatActivity {
         }
     }
 
-    private List<List<String>> generatePlayer() {
-        List<List<String>> allData = new ArrayList<>(2);
-        List<String> name = new ArrayList<>();
-        List<String> id = new ArrayList<>();
-        for (Player player : playerData) {
-            String tempId = player.getId();
-            boolean process = true;
-            if (idPlayer1 != null) {
-                if (idPlayer1.equals(tempId)) process = false;
-            }
-            if (idPlayer2 != null && process) {
-                if (idPlayer2.equals(tempId)) process = false;
-            }
-            if (idPlayer3 != null && process) {
-                if (idPlayer3.equals(tempId)) process = false;
-            }
-            if (idPlayer4 != null && process) {
-                if (idPlayer4.equals(tempId)) process = false;
-            }
-            if (process) {
-                name.add(player.getName());
-                id.add(tempId);
-            }
-        }
-        name.add(getString(R.string.menu_add_player));
-        allData.add(0, name);
-        allData.add(1, id);
-        return allData;
-    }
-
-    private void selectPlayerDialog(final int playerNumber, final List<String> playerName, final List<String> playerId) {
+    private void selectPlayerDialog(@NonNull final Integer playerNumber, @NonNull final List<String> playerName, @NonNull final List<String> playerId) {
         new MaterialDialog.Builder(this)
                 .title(String.format(getString(R.string.title_select_player), playerNumber))
                 .items(playerName)
@@ -195,7 +163,7 @@ public class CreateGameActivity extends AppCompatActivity {
                         if (which == playerName.size() - 1) {
                             createNewPlayer(playerNumber);
                         } else {
-                            setPlayer(playerNumber, playerName.get(which), playerId.get(which));
+                            mPresenter.setPlayer(playerNumber, playerName.get(which), playerId.get(which));
                         }
                     }
                 })
@@ -210,54 +178,39 @@ public class CreateGameActivity extends AppCompatActivity {
                 .input(getString(R.string.text_player_name), null, new MaterialDialog.InputCallback() {
                     @Override
                     public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
-                        setPlayer(forPlayer, input.toString(), addPlayer(input.toString()));
+                        mPresenter.setPlayer(forPlayer, input.toString(), mPresenter.addPlayer(input.toString()));
                     }
                 })
                 .show();
     }
 
-    private String addPlayer(String name) {
-        Player player = new Player(UUID.randomUUID().toString(), name, new Date(), true);
-        playerDao.insert(player);
-        updateDataPlayer();
-        return player.getId();
+    @Override
+    public void setPresenter(CreateGameContract.Presenter presenter) {
+        this.mPresenter = presenter;
     }
 
-    private void setPlayer(int position, String name, String idPlayer) {
+    @Override
+    public void applyPlayerName(@NonNull Integer position, @NonNull String name) {
         final String text = String.format(getString(R.string.player_number_format), position, name);
         switch (position) {
             case 1:
                 player1.setText(text);
-                idPlayer1 = idPlayer;
                 break;
             case 2:
                 player2.setText(text);
-                idPlayer2 = idPlayer;
                 break;
             case 3:
                 player3.setText(text);
-                idPlayer3 = idPlayer;
                 break;
             case 4:
                 player4.setText(text);
-                idPlayer4 = idPlayer;
                 break;
         }
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
-        outState.putSerializable(Tag.PLAYER_DATA, new ArrayList<>(playerData));
-        outState.putString(Tag.PLAYER_DATA1, idPlayer1);
-        outState.putString(Tag.PLAYER_DATA2, idPlayer2);
-        outState.putString(Tag.PLAYER_DATA3, idPlayer3);
-        outState.putString(Tag.PLAYER_DATA4, idPlayer4);
-        outState.putString(Tag.PLAYER_NAME1, player1.getText().toString());
-        outState.putString(Tag.PLAYER_NAME2, player2.getText().toString());
-        outState.putString(Tag.PLAYER_NAME3, player3.getText().toString());
-        outState.putString(Tag.PLAYER_NAME4, player4.getText().toString());
-        outState.putString(Tag.GAME_LOCATION, gameLocation.getText().toString());
-        outState.putInt(Tag.GAME_NUMBER, gameNumber);
-        super.onSaveInstanceState(outState);
+    public void addPlayerError(String name) {
+        Snackbar.make(createGame, getString(R.string.error_player_name_exist, name), Snackbar.LENGTH_LONG).show();
     }
+
 }
